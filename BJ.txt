@@ -207,4 +207,119 @@ lua是一个解释型语言，它有一个C编写的解释器，用来做语义�
 
 8.语句
 	赋值
+	多重赋值，将多个值赋予多个变量，每个值和变量之间用逗号分隔。
+	先对=号右边所有元素求值，然后再进行赋值。如果变量的个数多于值的个数
+	多的变量就是赋值为nil；如果值的个数多于变量的个数，多的值就会被丢掉。
+	a, b = 10, 2*x
+	
+	局部变量和块（作用域）
+	局部变量的声明
+	local i = 1
+	它的作用域有四个地方
+	1.函数体内
+	2.控制结构体内
+	3.一个文件内
+	4.同一字串命令。比如在交互模式中，即在交互模式中每一行就是一个块。
+	>local i = 1 -->这个代表一个块，作用域就只在这个块中
+	>print(i) -->nil
+	但是在同一行
+	>local i = 1 print(i) --> 1  整个字串代表一个块
+	5.do end 之间，可适用于交互模式
+	do
+		local a = 10
+		print(a)
+	end
+	局部变量多重赋值，其特性和全局变量多重赋值一样，只是需要在最开始加上local 标识
+	local a, b = 1, 2
+	
+9.控制结构
+	条件结构
+	1.if then else
+		if a < 0 then 
+			a = 0
+		end
+		
+		if a<0 then 
+			return a
+		else
+			return 0
+		end
+	
+	2.if elseif
+		if op == "+" then
+			return 1
+		elseif op == "-" then
+			return -1
+		else
+			return 0
+		end
+		
+	循环结构
+	1.while do
+		while i < 10 do
+			i++
+		end
+	
+	2.repeat until 注意在repeat中声明的临时变量 依然可以用在条件判断中
+		local k = 1
+		repeat
+			local i = 10
+			i = i - k
+			k = k + 1
+			print(i)
+		until i < 0
+		
+	3.数字型 for
+		for var = exp1, exp2, exp3 do
+			<...>
+		end
+		其中exp3可以不写，默认为1，var 会被自动声明为for的局部变量
+		for i = 1, f(x), -1 do
+			print(i)
+		end
+	
+	4.泛型 for
+		for i,v in ipairs(array)
+			<...>
+		end
+		每次循环，i被赋值一个索引，v被赋值该索引的值
+		迭代器的种类:
+		io.lines 		迭代文件中的每行
+		pairs 	 		迭代table元素
+		ipairs	 		迭代数组元素
+		stirng.gmatch	迭代字符串中的字母
+	
+	5.break return goto
+		break 用来跳出最内层的循环，并继续执行函数
+		return 用来结束函数
+		break 和 return 只能是一个块的最后一条语句，或者是end，else，until 前一条语句。
+		如果要在中间插入return 或 break 可以用do end 来包装
+		
+		function foo()
+			return 		-->不会报错，但是会忽略这个return
+			print(2)
+		end
+		
+		function foo()
+			do return end --> 正确做法应该用 do end 来包装
+			print(2)
+		end
+		
+		goto语句可以跳到一个指定的标签
+		标签的定义 ::标签名字::
+		限制条件:
+		1. goto 不能跳到一个块里面去，因为块中的label对外是不可见的
+		2. goto 不能跳出一个function
+		3. goto 不能跳入一个局部变量的范围
+		例：
+		::s1::do
+		local c = 1
+		print(1)
+		end
+		goto s1
+
+10.函数
+		
+		
+	
 	

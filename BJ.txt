@@ -417,17 +417,112 @@ lua是一个解释型语言，它有一个C编写的解释器，用来做语义�
 	foo({title="hh",width=400,height=600})
 	foo({})
 	
+	深入理解函数
+	function 是一种类型，所以他可以向普通类型那个声明和赋值，一定要记住这段话
+	function foo(x) return 2*x end
+	foo = function (x) return 2*x end
+	上述两种情况是等价的
+	匿名函数
+	function derivative(f, delta)
+		delta = delta or 1e-4
+		return function(x)
+					return (f(x+delta) - f(x))/delta
+				end
+	end
+	c = derivative(math.sin)
+	print(math.cos(5.2), c(5.2)) --> 0.46851667130038        0.46856084325086
+	print(math.cos(10),c(10)) --> -0.83907152907645       -0.83904432662041
+
+	闭合函数
+	function newCounter()
+		local i = 0
+		return function ()
+				i = i + 1
+				return i
+				end
+	end
 	
+	c1 = newCounter()
+	print(c1()) --> 1
+	print(c1()) --> 2
 	
+	c2 = newCounter()
+	print(c2()) --> 1
+	print(c1()) --> 3
+	print(c2()) --> 2
 	
+	注意其中的i值，被闭合的函数（闭合函数）拥有了使它成为闭合函数（宿主函数）的局部变量，此时i 变成了一个非局部变量，
+	它既不是全局变量，因为不能被除了闭合函数的其他对象访问；它也不是局部变量，因为对于
+	闭合函数而言它是相当于是个全局的数据。
+	每次运行宿主函数的时候，非局部变量，都会为此次运行的结果开辟一个新的空间用来保存新的非局部变量。
 	
+	将一个老函数变成新函数的办法
+	function f(a)
+		return a
+	end
+
+	do
+		local oldSin = f
+		local k = 10
+		f = function(x)
+			return oldSin(x*k)
+		end
+	end
+
+	print(f(1)) --> 10
 	
+	非全局函数
+	Lib = {}
+	Lib.foo = function (x, y) return x + y end
+	Lib.goo = function (x, y) return x - y end
+	
+	print(Lib.foo(2,3),Lib.goo(2,3)) --> 5
+	
+	Lib = {foo = function (x, y) return x + y end,  
+			goo = function (x, y) return x - y end}
+			
+	Lib = {}
+	function Lib.foo(x, y) return x + y end
+	function Lib.goo(x, y) return x - y end
+	
+	局部函数
+	定义
+	local f = function(<params>)
+				<body>
+				end
 		
+	local function f(<params>)
+		<body>
+	end
 	
+	另外注意：
+	local fact = function(n)
+			if n == 0  then return 1
+			else return n*fact(n-1) -->error
+			end
+		end
+	这样编译器是通不过的，语法层面就通不过了，参考C/C++
+	应该先声明，再定义，因为再实际运行的时候，fact已经有正确的值了。
+	local fact
+	fact = function(n)
+			if n == 0  then return 1
+			else return n*fact(n-1) -->error
+			end
+		end
 	
+	这种定义，与先声明再赋值是一个效果
+	local function foo(<params>) <body> end 
+	等价于
+	local foo; foo = function(<params>) <body> end 
 	
+	尾调函数
+	当一个函数调用是另一个函数调用的最后一个函数的时候，会进行尾部调用，
+	（很绕口是不是，听不懂是不是，没关系，一句话解释清楚）把它当内联函数处理就行了
+	function f(x) return g(x) end
+	return x[i].foo(x[j] + a*b, i+j)
+	上述两种情形会发生尾部调用
 	
-	
+11.迭代和泛型for
 	
 	
 	

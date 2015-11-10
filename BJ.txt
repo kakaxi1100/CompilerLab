@@ -623,13 +623,55 @@ lua是一个解释型语言，它有一个C编写的解释器，用来做语义�
 	关键点是 string.dump：它可以接受一个lua 的 function 并且返回预编译码的字符串形式
 	
 	错误处理
+	1.assert
 	lua有一个内建的错误处理函数 assert
 	assert 检查它的第一个参数不为假，并且返回这个参数。假如第一个参数为假，assert 就报一个
-	错误。它的第二个参数是一个提示信息，是可选的。
+	错误。它的第二个参数是一个提示信息，是可选的。	如果assert的第一个参数为不为false，则返回第一个参数的值；否则，执行error函数，输出错误信息，错误信息的内容为assert的第二个参数。
+	
+	错误捕获
+	2.pcall
+	pcall调用一个函数并且返回true或false
+	注意只有当这个函数中包含有error时才会返回false
+	例：
+	假如没有hh文件
+	function test()
+		file = assert(io.open("hh","r"),"ccc")
+	end
+
+	local b = pcall(test)
+	print(b) --> false
+	因为assert里面包含了，error调用，所有会是false
+	
+	如果换这种写法
+	function test()
+		io.open("hh","r")
+	end
+
+	local b = pcall(test)
+	print(b) --> true
+	由于没有error调用所以返回true
+
+	同理
+	function test()
+		print("c")
+		error()
+	end
+
+	local b = pcall(test)
+	print(b) -->false
+	
+	显示传出errorcode，用第二个参数来接一个table值
+	function test()
+		print("c")
+		error({code=11}) --> pcall调用时传出了这个table，这个table可以随意赋值
+	end
+
+	local b,c = pcall(test)
+	print(b) --> false
+	print(c.code) --> 11
 	
 	
-	
-	
+	错误消息和追溯
 	
 	
 	

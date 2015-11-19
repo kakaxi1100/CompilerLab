@@ -805,6 +805,32 @@ lua是一个解释型语言，它有一个C编写的解释器，用来做语义�
 	print(s)
 
 15. 数据文件和持久性
+	书中第一节讲解了，给输入字符串加引号的问题，不知道是什么用意。
+	有两种方法:
+	1.string.format("%q", o)
+	function serialize(o)
+		if type(o) == "string" then
+			print(string.format("%q", o)) --> 假如o是5则显示"5"
+		end
+	end
+	
+	2. 用[=[ ]=], 但这种情况只适合文本不变的时候，固定文本的时候。因为没办法自动组织括号里面的内容。
+	用长字符串块
+	function serialize(o)
+		if type(o) == "string" then
+			print([=["o"]=]) --> "o"
+		end
+	end
+	
+	接着书又讲了，table怎么写入文件
+	分两种情况
+	1. table中没有嵌套table
+	2. table中有嵌套table
+	具体实践中应该能自己解决
+	
+16. 元表和元方法
+	除非使用元表，否则我们不能使tables相加，不能比较function，也不能调用一个字符串
+	当一个值执行一个没有定义的操作的时候，元表允许我们改变它的行为。
 	
 	
 	

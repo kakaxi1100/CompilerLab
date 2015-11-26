@@ -831,8 +831,76 @@ lua是一个解释型语言，它有一个C编写的解释器，用来做语义�
 16. 元表和元方法
 	除非使用元表，否则我们不能使tables相加，不能比较function，也不能调用一个字符串
 	当一个值执行一个没有定义的操作的时候，元表允许我们改变它的行为。
+	lua在创建新的table时是没有元表的
+	我们可以用 setmetatable 来设置元表
+	t = {}
+	setmetatable(t, t1)
+	print(getmetatable(t) == t1) --> true
+	
+	我们只能设置table的元表， 设置其他类型的元表我们必须使用 C 代码。
+	string库为string类型设置了一个元表， 其他类型默认没有元表
+	print(getmetatable("hi")) --> table: 00000000004b9730
+	任何table都可以作为其他值的元表；一系列的相关tables可以共享一个元表；一个table可以是它自己的元表；
 	
 	
+	运算元方法
+	local mt = {}
+	Set = {}
+
+	function Set.new(l)
+		local set = {}
+		setmetatable(set, mt)
+		for _, v in ipairs(l) do set[v] = true end
+		return set
+	end
+
+	function Set.union(a, b)
+		local res = Set.new{}
+		for k in pairs(a) do res[k] = true end
+		for k in pairs(b) do res[k] = true end
+		return res
+	end
+
+	function Set.intersection(a,b)
+		local res = Set.new{}
+		for k in pairs(a) do
+			res[k] = b[k]
+		end
+		return res
+	end
+
+	function Set.tostring(set)
+		local l = {}
+		for e in pairs(set) do
+			l[#l+1] = e
+		end
+		return "{" .. table.concat(l,", ") .. "}"
+	end
+
+	function Set.print(s)
+		print(Set.tostring(s))
+	end
+	--指定相加的方法
+	mt.__add = Set.union
+	--指定相乘的方法
+	mt.__mul = Set.intersection
+	s1 = Set.new{10,20,30,50}
+	s2 = Set.new{32,1}
+	s3 = s1 + s2
+	print(getmetatable(s1)) --> table: 00000000004b9e30
+	print(getmetatable(s2))	--> table: 00000000004b9e30
+	s4 = s3*s2
+	Set.print(s3)
+	Set.print(s4)
+	
+	已__add为例
+	假如第一个值有元表，并且元表包含__add 字段，那么lua用这个字段作为元方法，而不依赖于第二个值；
+	否则，假如第二个值有元表，并且元表包含__add，那么lua用这个字段作为元方法；
+	否则，两个值都没有元表，或者元表都不包含__add， 那么lua会报错。
+	只要有__add那么lua不会关心你和什么值相加，它只关心你的函数能不能处理这个值，如果不能处理它会在函数处理的那个阶段报错，而不是在 "+" 号这里报错
+	
+	
+	关系元方法
 	
 	
 

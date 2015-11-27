@@ -903,8 +903,41 @@ lua是一个解释型语言，它有一个C编写的解释器，用来做语义�
 	
 	
 	关系元方法
-	__eq, __lt, __le
+	等于__eq, 小于__lt, 小于等于__le
 	
+	
+	库定义中的元方法
+	__tostring，用来print的时候调用；
+	__metatable用来保护元表
+	mt.__metatable = "not your business"
+	当调用 getmetatable 时它返回上面这句话
+	当调用 setmetatable 是它会报错
+	
+	
+	访问表的元方法
+	查询和修改table的时候，可以改元方法。
+	
+	查询 __index
+	当查询的时候假如表中没有就会去查询元表并返回结果
+	protype={0, 10, 20, 30}
+	mt = {}
+	mt.__index = protype
+
+	st = {40,  50}
+	setmetatable(st, mt)
+	for i=1,6,1 do
+		print(st[i]) --> 40,50,20,30, nil, nil
+	end
+	-------------------------------------------
+	function setDefault(t, d)
+		local mt = {__index = function()return d end}
+		setmetatable(t, mt)
+	end
+
+	tab = {x=10, y=20}
+	print(tab.x, tab.z) --> 10 nil
+	setDefault(tab, 0)
+	print(tab.x, tab.z) --> 10 0
 
 	
 	

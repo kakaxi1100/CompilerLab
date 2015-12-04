@@ -939,6 +939,36 @@ lua是一个解释型语言，它有一个C编写的解释器，用来做语义�
 	setDefault(tab, 0)
 	print(tab.x, tab.z) --> 10 0
 
+	更新__newindex
+	当你为一个新的建赋值的时候，会查找__newindex元方法，假如有的话，就会调用它。
+	还有一个方法可以绕开 __newindex调用，就是用rawset(t,k,v) t是table，k是建，v是值
+	将值v保存到table t 的 k 建中。
+	
+	
+	让table具有默认值
+	function setDefault(t, d)
+		local mt = {__index = function()return d end}
+		setmetatable(t, mt)
+	end	这个方法不好用，因为假如有两个不同的table要使用不同的默认值，则需要建立两个元表，不能复用。
+	
+	可以用一个特殊的建来表示默认值，然后默认返回这张表的这个值
+	local mt = {__index = function(t)return t.___ end}
+	function setDefault(t, d)
+		t.___ = d
+		setmetatable(t, mt)
+	end
+
+	tab = {x=10, y=20}
+	tab2 = {}
+	setDefault(tab, 0)
+	setDefault(tab2, 1)
+	print(tab.x, tab.z) --> 10 0
+	print(tab2.x) --> 1
+	
+	
+	table访问跟踪
+	
+	
 	
 	
 	

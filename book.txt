@@ -38,3 +38,11 @@ http://www.zhihu.com/question/24398907
 
 虚拟现实开发指南
 Learning Virtual Reality
+
+4.
+人工智能
+http://book.douban.com/subject/5378558/
+Artificial Intelligence: A modern approach
+
+5.
+游戏编程精粹

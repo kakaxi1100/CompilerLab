@@ -33,6 +33,10 @@ Milo的所有豆列 http://book.douban.com/people/miloyip/doulists
 非常好的教学网！
 http://gamedevelopment.tutsplus.com/posts
 
+shader一定要来看看 
+http://www.iquilezles.org/www/index.htm
+https://www.shadertoy.com/
+
 HTML5游戏特效
 http://www.zhihu.com/question/24398907
 

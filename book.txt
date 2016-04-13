@@ -40,8 +40,14 @@ https://www.shadertoy.com/
 HTML5游戏特效
 http://www.zhihu.com/question/24398907
 
+HTML5
+http://www.html5tricks.com/
+
 虚拟现实开发指南
 Learning Virtual Reality
+
+HTML5游戏
+http://www.goodboydigital.com/pixijs/
 
 4.
 人工智能
@@ -50,3 +56,4 @@ Artificial Intelligence: A modern approach
 
 5.
 游戏编程精粹
+

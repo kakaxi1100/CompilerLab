@@ -673,36 +673,36 @@ lua是一个解释型语言，它有一个C编写的解释器，用来做语义�
 	
 	错误消息和追溯
 	error 的第二个参数可以表示再那一层级显示错误消息
-	function foo (str)
-		if type(str) ~= "string" then
-			error("a",1)
-		end
-		print(str)
-	end
-
-	foo(12) --> 2.lua:3: a 
+	1.function foo (str)
+	2.	if type(str) ~= "string" then
+	3.		error("a",1)
+	4.	end
+	5.	print(str)
+	6.end
+	7.
+	8.foo(12) --> 2.lua:3: a 
 	-----------------------------------
-	function foo (str)
-		if type(str) ~= "string" then
-			error("a",2)
-		end
-		print(str)
-	end
-
-	foo(12) --> 2.lua:8: a
+	1.function foo (str)
+	2.	if type(str) ~= "string" then
+	3.		error("a",2)
+	4.	end
+	5.	print(str)
+	6.end
+	7.
+	8.foo(12) --> 2.lua:8: a
 	-----------------------------------
-	function foo (str)
-		if type(str) ~= "string" then
-			error("a",3)
-		end
-		print(str)
-	end
-
-	function test ()
-	foo(12)
-	end
-
-	test() --> 2.lua:12: a
+	1.function foo (str)
+	2.	if type(str) ~= "string" then
+	3.		error("a",3)
+	4.	end
+	5.	print(str)
+	6.end
+	7.
+	8.function test ()
+	9.foo(12)
+	10.end
+	11.
+	12.test() --> 2.lua:12: a
 	-----------------------------------
 	但是如果用pcall来运行foo则不会提示哪里出错。pcall返回时，它已经销毁了调用桟的部分内容。
 	function foo (str)
@@ -939,7 +939,7 @@ lua是一个解释型语言，它有一个C编写的解释器，用来做语义�
 	setDefault(tab, 0)
 	print(tab.x, tab.z) --> 10 0
 
-	更新__newindex
+	更新__newindex (注意是新建值的时候才会调用)
 	当你为一个新的建赋值的时候，会查找__newindex元方法，假如有的话，就会调用它。
 	还有一个方法可以绕开 __newindex调用，就是用rawset(t,k,v) t是table，k是建，v是值
 	将值v保存到table t 的 k 建中。
@@ -967,6 +967,353 @@ lua是一个解释型语言，它有一个C编写的解释器，用来做语义�
 	
 	
 	table访问跟踪
+	目的是为了访问table里面的每一个元素, 首先这个table 必须满足，
+	1.开始的时候不能有值
+	2.原表中不能操作自己
+	（1.）好理解 关键是 （2.） 我们来举个例子:
+	错误的例子：
+	t = {}
+	mt = {
+		__newindex = function ( t, k , v)
+			print("hehe")
+			t[k] = v
+		end
+	}
+	setmetatable(t, mt);
+
+	t[1] = 1 -->"hehe hehe hehe ..."  栈溢出
+	因为一旦程序执行到 t[k] = v 的时候它就又调用了 __newindex，所以正确的做法是找一个代理
+	
+	正确的例子:
+	t = {}
+	_t = t -->保存t
+	t = {} -->将t置空
+	mt = {
+		__newindex = function ( t, k , v)
+			print("hehe")
+			_t[k] = v
+		end
+	}
+
+	setmetatable(t, mt);
+
+	t[1] = 1 -->这样就可以了，因为每次操作的是 _t 所以不会重复触发 t 的 原表 __newindex 方法。
+	
+	以上只针对了一个值，如果针对多个值可以这样做,书上做的很巧妙，关键点在下面
+	
+	t1 = {}
+	_mt = {
+		__newindex = function( t, k, v )
+			print("go")
+			t[index][k] = v		-->因为index没有修改原表, 所以不会重复执行__newindex
+		end
+	}
+
+	index = {}
+	proxy = {}
+	proxy[index] = t1
+	setmetatable(proxy, _mt)
+	t1 = proxy				-->赋值过去后又赋值回来,很巧妙,其实操作的是proxy了
+
+	t1[1] = 1
+	
+	只读table, 这个比较简单，主要是利用了newindex 在新建的时候会调用,所以先将本身赋值给__index提供查询功能, 然后在将自己置空, 设置原表
+	这样在__newindex写个报错函数, 就不能赋值了
+	
+	t1 = {1,2}
+	_mt={
+		__index = t1,
+		__newindex = function ( t,k,v )
+			error("aa")
+		end
+	}
+	t1 = {}
+
+	setmetatable(t1, _mt)
+
+	print(t1[1])
+
+	t1[2] = 10 -->error
+------------------------------------------------------------------------------------------------------------------	
+17. 环境
+	全局环境
+	lua 将所有的全局变量都保存在一个table当中， lua在全局变量_G中储存整个环境， 即_G._G = _G。
+	
+	带动态名字的全局变量(即命名空间)
+	_G可用来表示命名空间
+	比如一个变量名 命名为 a.b.c.d = 10
+	直接声明会报错
+	但是用_G可以这样写，书上封装成了函数，包括读取和写入
+	 v = _G
+
+	 v["a"] = v["a"] or {}
+	 v = v["a"]
+	 v["b"] = v["b"] or {}
+	 v = v["b"]
+	 v.c = 10
+
+	 print(a.b.c) --> 10
+	
+	全局变量的声明处理：
+	由于lua的全局变量是不需要声明的，所以可以到处乱写，对debug带来麻烦，我们可以通过原表来阻止这种乱声明对象的情况发生。
+	这个方法会造成 不能声明全局变量，所以还要又一个方法能给他创建全局变量
+	
+	setmetatable(_G, {
+	__newindex = function ( _, n )
+		error("attempt to write to undeclared variable" .. n)
+	end,
+	__index = function ( _, n )
+		error("attemp to read undeclared variable ".. n, 2)
+	end
+	})
+	
+	声明全局变量方法， rawset可以绕过 __index和__newindex 的检测。注意这个方法必须在setmetatable之前
+	
+	function declare(name, initval)
+		rawset(_G, name, initval)
+	end
+	
+	完整的程序:
+	
+	function declare(name, initval)
+			rawset(_G, name, initval or false)
+		end
+
+	setmetatable(_G, {
+		__newindex = function ( _, n )
+			error("attempt to write to undeclared variable" .. n)
+		end,
+		__index = function ( _, n )
+			error("attemp to read undeclared variable ".. n, 2)
+		end
+		})
+
+	declare("a", 10)
+	print(a)	-->10
+	
+	后面讲解了，如何限制智能在main块中创建全局变量，（现在看不懂，以后再看）
+	--------------------------------------------------------------------------
+	非全局环境
+	应用全局环境的坏处是，一旦你修改了其中的某些部分，它会影响到整个程序。
+	非全局环境用到了lua的以下性质，lua将任何块都作为一个匿名函数来对待， lua编译我们的原始块，就像下面这样
+	注意, var1 和 var2 这种变量名被称为自由名字，只有自由名字前面才会加上 _ENV。 (这里主要是相对于 local)
+	原始块：
+	do 
+	var1 = var2 + 3
+	end
+	编译后:
+	local _ENV = <some value>
+	return function(...)
+		_ENV.var1 = _ENV.var2 + 3
+	end
+	
+	当我们load（loadfile 等）一个块的时候，实际上我们是将_ENV提升到了一个全局环境
+	local _ENV = <global environment>
+	return function(...)
+		_ENV.var1 = _ENV.var2 + 3
+	end
+	
+	使用_ENV
+	local print, sin = print, math.sin -->这里可以理解为local print, sin = _ENV.print, _ENV.math.sin
+	_ENV = nil
+	print(13)
+	print(sin(13))
+	print(math.sin) -->error
+	
+	
+	_ENV = {}
+	a = 1
+	print(a)-->attempt to call global 'print' (a nil value)
+	
+	.
+	.
+	.
+	
+	闭合函数可以访问它外部函数的变量, 书上用到了一个简化的形式来表示这种方法, 我感到很惊奇
+			书上的：									我的：
+	function factory1(_ENV)				|		function factory1(t)
+			return function()			|		local _ENV = t
+					return a			|		return function()
+					end					|					return a
+	end									|					end
+										|		end
+	f1 = factory1{a = 6}				|
+	f2 = factory1{a = 7}				|		f1 = factory1{a = 6}
+	print(f1())							|		f2 = factory1{a = 7}
+	print(f2())							|		print(f1())
+										|		print(f2())
+										|
+										
+	这章还有大量的使用_ENV的例子，自己详看。
+	
+	_ENV 和 load
+	前面提及了load的时候，会将_ENV 赋值为全局变量_G, 其实load方法(包括但不限于loadfile)，可以再load的时候指定_ENV
+	
+	env = {}
+	f = loadfile("config.lua","t", env)
+	f()
+	
+	书中还提到了另外两种方法，但看起来都很奇葩，所以请自行观看
+-------------------------------------------------------------------------------------------------------------	
+18. 模块与包
+	要加载一个模块，用 require, lua解释器会提前加载标准库，像这样
+	math = require "math"
+	string = require "string"
+	
+	可以给模块起别名，像这样
+	local m = require "mod"
+	m.foo()
+	
+	如果模块在初始化的时候，需要传值怎么办？就是你自己要提供一个初始化函数，而不是让require函数帮你做这件事：
+	local mod = require"mod"
+	mod.init(...)
+	如果初始化函数返回模块本身，那么就可以简化成
+	local mod = require"mod".init(...)
+	还有一种简化方法是 模块返回init函数，而init函数返回模块本身
+	local mod = require"mod"(...)
+	
+	require方法
+	require 里面其实是调用了一个search function，它根据文件类型的不同调用不同的loader(比如*.lua 和 *.lib) 它有两个参数第一个是模块名字，第二个是这个模块所在的文件，第二个参数可以省略，那么默认就是找模块对应的文件。
+	假如 loader 返回了任何值，那么require 也返回同样的值，并且保存在 package.loaded 里面，以备后用。假如loader没有返回任何值， 那么require就当loader 返回了true，之所以这样调用，是为了 require 同样模块时不会执行两次。如果你就是想多次执行怎么办？只要将package.loaded里面对应的模块清空就行了。
+	package.loaded.<modname> = nil
+	
+	重命名一个模块
+	利用连字符 "-"，好像是针对 luaopen_* 的。
+	当一个模块被命名为 a-b 时, 那么会用 luaopen_b 来代替 luaopen_a-b.
+	
+	路径查找
+	?;?.lua;c:\windows\?;/usr/local/lua/?/?.lua
+	其中 ？ 被替换成了模块名称， 然后按顺序查找。
+	
+	这个路径会被赋值给 package.path, 当lua启动的时候，它会将环境变量LUA_PATH_5_2中的值赋给它。
+	假如环境变量LUA_PATH_5_2没有找到，它会尝试另一个环境变量LUA_PATH。假如两个都没有找到lua就用默认的路径。可以添加编译参数 -E 来强行调用默认路径，而不走环境变量。
+	另外两个分号连写";;"可以表示默认路径，假如你设置了 LUA_PATH_5_2 = "mydir/?.lua;;"， 那么最后的path就是 "mydir/?.lua;默认路径"
+	
+	寻找C 库文件路径也是一样的，只不是用到的变量是 package.cpath 对应的环境变量为 LUA_CPATH_5_2 和LUA_CPATH
+	
+	搜索器Searchers
+	搜索文本文件和C库用到的是两个不同的搜索器，搜索器是一个简单的函数，它的参数是模块的名字，它返回一个模块的loader或者空。
+	
+	package.searchers 列出了 require 所用到的搜索器。当查找一个模块的时候，require会调用这些搜索器。
+	搜索器的便利之处在于，你可以在 package.searchers 中添加自定义的搜索器。比如， zip 文件的搜索器。
+	
+	默认的require 搜索的的顺序是：preload , Lua file, C lib.
+---------------------------------------------------------------------------------------
+19. 编写模块的基本方法
+	1.创建一个table
+	2.将所有需要导出的方法放到这个table里面
+	3.返回这个table
+	
+	假如有人不想在最后的调用return 方法，也可以采用下面的方法来规避return;
+	local M = {}
+	package.loaded[<moudle name>] = M
+	假如 module 不返回值，那么 require 将返回 packa.loaded[modname](如果这玩意不是空的话)。
+	
+	还有一种方法是，先不要声明 table，而是在最后返回一个匿名的table。
+	local function new(r, i) return {r=r, i=i} end
+	local function tostring return "something" end
+	return {
+		new = new,
+		tostring = tostring
+	}
+	
+20. 使用环境
+	按照基本的方法编写模块最大的问题是，太容易污染全局环境了，因为很多时候都会忘记加 local 修饰。那么应该怎么样避免呢？还记得前面提到过的_ENV吗？其实所有的变量都是在_ENV中的，只不过在load后_ENV赋值为了_G。所以我们可以显示的赋值_ENV让它不要等于_G。look look:
+	local M = {}
+	_ENV = M
+	function add(c1, c2) return c1+c2 end
+	但是这种方法有个问题，就是所有glob的方法都不能调用了，比如print等等，为了解决这个问题可以用一下的方法:
+	
+	1.继承
+	local M = {}
+	setmetatable(M, {__index = _G})
+	_ENV = M
+	
+	2.继承太重了，所以不用
+	local M = {}
+	local _G = _G
+	_ENV = M -->or _ENV = nil
+	_G.print(...)
+	
+	3.只加载需要的函数
+	local M = {}
+	local sqrt = math.sqrt
+	local io = io
+	_ENV = nil --> or _ENV = M
+	第三种方式最块，就是写的要多点。
+--------------------------------------------------
+21. 子模块和包
+	Lua允许分层次的模块名，如 mod.sub。 
+	一个包就是一个完整的模块树。
+	
+	假如一个模块名字为 mod.sub 那么package.loaded 会将 "mod.sub" 作为键。当用搜索器进行搜索时，会把这个“.” 作为目录的分隔符
+	例:a.b
+	./a/b.lua;/usr/local/lua/a/b.lua;/usr/local/lua/a/b/init.lua
+	这样做会让每个模块在一个单独的包下。假如一个包有模块p， p.a, p.b, 那么对应的文件在 p/init.lua, p/a.lua, p/b.lua。
+	
+	对于C 库 有一套特定的方法，这里自己看书。（需要实例来看情况）
+----------------------------------------------------
+22.面向对象编程
+	其实这里就是看你怎么玩 table 和 元表。
+	这里有个语法糖
+	function A:Foo()
+		self.balance;
+	end
+	用冒号来声明一个函数的时候，会再函数参数里面自动加上 self 参数。
+	即冒号是用来省略self参数的，不管是声明还是调用，都可以用和这个语法糖来省略self参数。
+	
+	类
+	利用了table会搜索元表的特性
+	setmetatable(a, {__index = b})
+	我们可以利用这个特性，先创建一个方法模版，然后用这个模版里面的new方法new出来的实例的index都指向这个模版即可。如下:
+	function Account:deposit(v)
+		return self.balance - v
+	end
+	
+	function Account:new(o)
+		o = o or {}
+		setmatatable(o, self)
+		self.__index = self
+		return o
+	end
+	
+	a = Account:new{balance = 0}
+	a:deposit(100)   -->这里的a没有deposit属性，所以会找Account的deposit属性
+	
+	继承，上述代码也同时实现了继承
+	SpecialAccount = Account:new()
+	s = SpecialAccount:new{limit=1000.00}
+	s:deposit(100.00)
+	在s调用deposit的时候，先去查找SpecialAccount有没有这个方法，如果有，就调用SpecialAccount里面的deposit方法，如果没有就继续找Account。这就实现了继承。
+	
+	多继承
+	思路是：
+	1.先设置一个table c ，将其的元表写成给定的键查找parents-list中对应的值
+	2.让后将 c.__index = c, 这样做，是为了让 c 作为另一个对象的原表
+	3.创建另一个对象 o， 将其到元表设置成 c
+	O了
+	（其余自己看书吧。。。）
+	
+	私密性
+	私密性就是用两个table来操作，一个保存状态，一个返回接口，就是闭包。
+	function newAccount(initalBalance)
+		local self = {balance=initailBalance}
+		local withdraw = function(v)
+							self.balance = self.balance - v
+						end
+		local deposit = function(v)
+							self.balance = self.balance + v
+						end
+		return {
+			withdraw = withdraw,
+			deposit = deposit
+		}
+	end
+	
+	只有一个方法返回时的做法（具体见书籍）
+----------------------------------------------------------------------
+23.	弱引用table 和 垃圾回收
+	
 	
 	
 	

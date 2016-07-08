@@ -2,13 +2,193 @@
 
 第一章：C++和STL速成
 
+一.基础
 1.main()函数或者没有参数，或者具有两个参数
 
+二.命名空间
+1.namespace mycode{
+	....
+  }
 
+2.using指定特定项
+  using std::cout;
+  注：切勿在头文件中使用using或using声明，因为如果这样做了，那么每个包含这个头文件的文件都会使用这个using。
+	
+三.变量
+1.声明变量时可以不指定值，这些未初始化的变量通常会被赋予一个半随机值，  这个值取决于当时内存中的内容。所以请尽量在声明变量时就给其赋值。
 
+2.变量类型转换, C++提供了三种方法来显示的转换变量类型：
+	float myFloat = 3.14f;
+	int i1 = (int)myFloat; //方法1
+	int i2 = int(myFloat); //方法2
+	int i3 = static_cast<int>(myFloat);//方法3 推荐使用这种方法
+	
+四.字面量
+1.	C++14 提供了二进制的字面量 
+	如：0b1111011
+	C++14 允许再数字字面量中使用数字分隔符 
+	如：int num = 123'45'367; float num2 = 0.123'5'365;
 
+五.类型
+1.	枚举类型 非类型安全 可以和整数做比较
+	enum EnumType
+	{
+		a,
+		b
+	}
+	
+2.	强类型枚举 类型安全，比如使用域作用域解析符来比较
+	默认类型是 int 但是可以通过再后面执行类型来改变类型
+	enum class EnumType : unsinged long
+	{
+		a,
+		b
+	}
+	
+	例：
+	enum Test {
+		a,
+		b,
+		c,
+		d
+	};
 
+	enum class TestStronger {
+		a,
+		b,
+		c,
+		d
+	};
 
+	Test t;
+	t = Test::a;
+	if (t == 0) {
+		cout << "test" << endl;
+	}
+
+	TestStronger ts = TestStronger::a;
+
+	if (ts == 0) {//error 需要用 TestStronger::a 来比较
+		...
+	}
+	
+六.条件语句
+1.在switch语句中，表达式必须是整型或能转换为整型的类型，必须与一个常量  进行比较。
+
+七.数组
+1.数组的大小不能用变量来表示，必须用常量或者常量表达式。
+
+2.	int myArray[3] = {0} // 所有数据初始化为0
+	int myArray[3] = {2} // 第一个元素设置成2
+	
+3.	std::array 在头文件 <array> 中定义
+
+八.循环
+1.	for (int i = 0; i < 5; i++)
+	{
+		cout << i << endl;
+	}
+	cout << i < endl;//error 没有i定义
+	
+2.	基于区间的for循环
+	array<int, 4> arr = { 1,2,3,4 };
+	for (int i : arr)
+	{
+		cout << i << endl;
+	}
+	
+九.函数
+1.	每个函数都有一个预定义的局部变量__func__
+	static const char __func__[] = "function-name"
+	可以用来输出日志：
+	void funName()
+    {
+	     cout << __func__ << endl;
+    }
+	
+2.	替代的函数语法 trailing return type
+	auto 关键字表示使用替代函数语法开始的一个原型。
+	auto func(int i)->int
+	{
+		return i + 2;
+	}
+	main()函数也可以使用这种语法:
+	auto main()->int
+	{
+		return 0;
+	}
+	
+3.	C++14 允许编译器自动推断出函数的返回类型。要使用这个功能，需要把auto指定为返回类型，并忽略拖尾返回类型。
+	auto foo(int n1, int n2)
+	{
+		return n1+n2;
+	}
+
+十.类型推断
+1.类型推断两个关键字 auto 和 decltype
+
+2.关键字auto
+	auto有4中完全不同的含义：
+	第一种：在编译时自动推断变量的类型。
+	第二种：替代函数的语法。
+	第三种：函数返回类型的推断。
+	第四种：通用的lambda表达式。
+	
+	auto 推断变量的类型时会去除引用和const限定，需要自己手动显示的加上这些限定。如：
+	const int i = 10;
+	const int& foo()
+	{
+		return i;
+	}
+	const int& b = foo();
+	b = 1;//error
+
+	auto c = foo();
+	c = 1; //correct, c type is int
+
+	const auto d = foo();
+	d = 1;//error, d type is const int&
+	
+3.关键字decltype
+	关键字decltype把表达式作为实参。如：
+	int x = 123;
+	decltype(x) y = 456;
+	
+	如 2 中的例子
+	调用decltype 可以做正确推断，但是 foo()要指定两次，如：
+	decltype(foo()) a = foo();
+	a = 1;//error, a type is const int&
+	
+4.C++14 decltype(auto)
+	decltype(auto)的出现就是为了解决上述例子中出现的问题，用auto需要手动添加限定，用decltype又造成代码冗余。如：
+	decltype(auto) a = foo();
+	a = 1;//error, a type is const int&
+
+十一.指针和动态内存
+1.在任何时候都应避免使用未初始化的变量，尤其是未初始化的指针，因为它们会指向内存中的每个随意位置。
+
+2.为了防止在释放指针指向的内存后再使用指针，应该把指针设置为nullptr。
+
+3.空指针常量
+	在C++11之前空指针NULL等同于0，这会导致一些问题，可以用真正的空指针常量nullptr来解决。
+
+4.智能指针
+	C++中有3种智能指针:std::unique_ptr, std::shared_ptr 和 std::weak_ptr，它们都在<memory>头文件中定义。
+	
+十二.const的多种用法
+1.const 定义常量
+
+2.使用const保护参数
+	可以将非const变量转换为const变量，用于变量的保护。如：
+	void foo(const int* i)
+	{
+		*i = 10;// error
+	}
+	int a = 10;
+	foo(&a);
+	
+3.const引用
+	const引用的主要价值在于效率，通过传递const引用可以做到，函数参数不会制作副本，也能保证原始变量不被修改。
 
 
 

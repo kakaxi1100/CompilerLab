@@ -1,0 +1,236 @@
+要点：
+
+第一章：C++和STL速成
+
+1.main()函数或者没有参数，或者具有两个参数
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------
+1. 不要在头文件中用using, 因为这样只要包含了这个头文件的文件就会调用using.
+
+2. 建议用 const 代替 defined 
+
+3. 函数的拖尾返回类型表示方法
+	auto func(int i) -> int
+	{
+		return i + 2;
+	}
+
+4. const
+   1.非 const 可以转变为 const
+   例：
+   void mysteryFuntion(const std::string* somestring)
+   {
+		// *somestring = "Text" //非法
+   }
+   
+   int main()
+   {
+		std::string myString = "The string";
+		mysteryFunction(&myString);
+		return 0;
+   }
+
+   2. const 引用
+   这个概念看起来是有矛盾的, 引用主要是用来在另一个地方改变值, 而 const 是阻止值的改变.
+   const 引用的价值在于效率. 
+   普通向函数传值时, 会制作一个完整的副本. 当用传递引用时,实际上只是传递了一个指向原始数据的指针.
+   所以通过const引用做到了 不需要副本,原始变量也不需要修改.
+   例：
+   void prinString(const std::string& myString)
+   {
+		std::cout<< myString << std::endl;
+   }
+   int main()
+   {
+		std::string someString = "Hello World";
+		prinString(someString);
+		return 0;
+   }
+   
+5. 类型推断
+	两个关键字：auto 和 decltype
+
+	auto
+	1.变量类型推断
+	auto x = 123;
+	2. 函数返回类型推断
+	auto result = getFoo();
+	3.用于lambda表达式
+	4.如前面所说的替代函数语法.
+	
+	decltype是把表达式作为实参来推断
+	int x = 123;
+	decltype(x) y = 456;
+	
+	decltype(auto)
+	const string message = "Test"
+	
+	const string& foo()
+	{
+		return message
+	}
+	使用auto推断表达的类型时会去除 引用 和 const 限定
+	auto f1 = foo();
+	f1被推断为string类型,会建立一个副本.如果要用常量引用,需要改成:
+	const auto& f1 = foo();
+	
+	decltype 没有去除这些先订,但可能导致代码重复.
+	decltype(foo()) f2 = foo();
+	f2是const string& 类型。但是代码重复，因为foo()需要指定两次.
+	
+	所以引入了 decltype(auto)
+	decltype(auto) f3 = foo();
+	f3是 const string& 类型
+	
+二 ，面向对象编程
+以下都是针对类的
+
+1. 默认构造函数
+2. 复制构造函数
+3. 析构函数
+4. 赋值运算符
+5. 当类含有指针时的复制构造函数和赋值运算
+6. 静态数据成员
+7. const 数据成员
+8. 循环include问题。
+9. 静态方法
+10.const 方法
+11.mutable
+12.方法重载
+13.默认参数
+14.内联方法
+15.嵌套类
+16.友元
+17.元算符重载
+18.隐式转换
+19.重载算术运算符
+20.创建稳定的接口
+
+
+xx. 向上转型和向下转型
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

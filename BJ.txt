@@ -1313,6 +1313,417 @@ lua是一个解释型语言，它有一个C编写的解释器，用来做语义�
 	只有一个方法返回时的做法（具体见书籍）
 ----------------------------------------------------------------------
 23.	弱引用table 和 垃圾回收
+	就是在数组或者table里面的引用 不论是键还是值 都是强引用。我们可以指定table键或者值用弱引用。
+	指定的参数是元表里面的__mode属性，字符串"k"表示键弱引用， 字符串"v"表示值弱引用， 字符串"kv"表示键和值都是弱引用。另外只有object类型才符合弱引用的回收机制，值类型不符合包括string。
+	键的例子：
+	a = {}
+	b={__mode = "k"}
+	setmetatable(a,b)
+	key = {}
+	a[key] = 1
+	key = {}
+	a[key] = 2
+	collectgarbage()
+	for k,v in pairs(a) do
+		print(k,v) -->第一个key由于没有引用了所以被垃圾回收了 table: 003F7738 2
+	end
+	
+	值的例子：
+	a = {}
+	b={__mode = "v"}
+	setmetatable(a,b)
+	key = {}
+	a[1] = key
+	key = {}
+	collectgarbage()
+	for k,v in pairs(a) do
+		print(k,v)--> 什么也不打 因为被回收了
+	end
+	
+	弱引用的应用--备忘录函数
+	一般备忘录函数的写法如下：
+	local results = {}
+	function mem_loadstring(s)
+		local res = results[s]
+		if res = nil then 
+			res = assert(load(s))
+			results[s] = res
+		end
+		return res
+	end
+	这种方法会造成内存堆积，正确写法如下：
+	local results = {}
+	setmetatable(results, {__mode = "v"})
+	function createRGB(r, g, b)
+		local key = r .. "-"..g.."-"..b
+		local color = results[key]
+		if color == nil then
+				color = {red = r, green = g, blue=b}
+				results[key] = color
+		end
+		return color
+	end
+	
+	createRGB(0,0,0)
+	o = createRGB(1,1,1)
+	o = nil -->如果不对o另外赋值，createRGB出来的对象就不会被回收
+	collectgarbage()
+	for k,v in pairs(results) do
+		print(k,v) -->什么也没有
+	end
+	
+	对象属性
+	（讲了一大堆，没空看）
+	
+	回顾带有默认值的table
+	（同上）
+
+	蜉蝣表	即当使用弱引用对象时，一个对象既是一个表的键，又是一个表的值，这是key会控制值，即不管value是不是强引用，都按照弱引用key来处理。
+	
+	终结器
+	就是在被回收的时候，执行的函数。用元表 __gc 的方式来设置。
+	o = {x = "hi"}
+	setmetatable(o, {__gc = function ( o )
+		print(o.x)
+	end})
+	o = nil
+	collectgarbage() --> hi
+	
+	要注意个陷阱就是，在设置元表__gc前必须先有一个__gc的键，例：
+	o = {x = "hi"}
+	mt = {}
+	setmetatable(o, mt)
+	mt.__gc = function ( o )
+				print(o.x)
+			end
+	o = nil
+	collectgarbage() --> 不打印任何东西
+	
+	必须这样做：
+	o = {x = "hi"}
+	mt = {__gc = true} -->赋任何不为nil的值都行
+	setmetatable(o, mt)
+	mt.__gc = function ( o )
+				print(o.x)
+			end
+	o = nil
+	collectgarbage() --> hi
+	
+	并且记住一点先标记的后销毁，跟C++的先创建后销毁，后创建先销毁一样一样的。
+	
+	唤醒机制
+	在做垃圾回收的时候，会把A，B在激活（A，B之前已经赋值为nil了），然后运行结束器，然后再回收。
+	结束器对每一个对象只运行一次。
+	A = {x = "this is A"}
+	B = {f = A}
+	setmetatable(B, {__gc = function(o) print(o.f.x) end})
+	A,B = nil
+	collectgarbage() -->this is A
+	
+	终结器会在程序终止前执行如
+	_G.AA = {__gc = function (  )
+		print("finishing program")
+	end}
+
+	setmetatable(_G.AA, _G.AA)-->finishing program
+	
+	弱引用table和终结器
+	弱引用table 会再唤醒前清除作为值的回收对象，然后唤醒后清除作为键的回收对象
+	
+	wk = setmetatable({}, {__mode = "k"})
+	wv = setmetatable({},{__mode = "v"})
+
+	o = {}
+	wv[1] = o; wk[o] = 10
+
+	setmetatable(o, {__gc=function ( o )
+		print(wk[o], wv[1])
+	end})
+
+	o = nil;
+	collectgarbage();-->10  nil
+----------------------------------------------------------------------------------
+24.标准库
+	这里可以参考lua手册啦
+	http://www.lua.org/manual/5.2/
+
+25.C API
+	auxiliary library (auxlib)辅助库
+	所有的辅助库里面的定义都是以 luaL_ 开头，它里面的实现都是 lua.h 里面的基础API所实现的。
+	
+	栈
+	压入到栈的函数，其中 lua_pushlstring 可以指定任意的string类型，但必须指定长度 而 lua_pushstring 只能计算以'\0' 结尾的string。
+	
+	void lua_pushnil	 (lua_State *L);
+	void lua_pushboolean (lua_State *L, int bool);
+	void lua_pushnumber	 (lua_State *L, lua_Number n);
+	void lua_pushinteger (lua_State *L, lua_Integer n);
+	void lua_pushunsigned(lua_State *L, lua_Unsigned n);
+	void lua_pushlstring (lua_State *L, const char *s, size_t len);
+	void lua_pushstring (lua_State *L, const char *s);
+	
+	C和Lua的数据是通过Lua里面的一个虚拟栈交换的，这个栈有20个slots用来存放数据，这个大小是在 lua.h 里面 LUA_MINSTACK 设定的。
+	可以通过下面的函数查看栈还有多少空间：
+	int lua_checkstack(lua_State *L, int sz);
+	
+	检查栈的元素是否为某种类型，可以用：
+	int lua_is*(lua_State *L, int index);
+	其中*代表lua的类型 比如 lua_isnumber, lua_istring, lua_istable....
+	不过要注意的是，实际上 lua_isnumber 或者 lua_isstring 并不是检查取得的类型是不是number 或string，而是看这个类型是否能够转换成number 或者 string。
+	
+	另外我们也可以用 lua_type 函数来得到栈中元素的类型, 其中类型的定义在头文件 lua.h 中，它们分别是：LUA_TNIL, LUA_TBOOLEAN, LUA_TSTRING, LUA_TTABLE, LUA_TTHREAD, LUA_TUSERDATA, LUA_TFUNCTION. 同时它会忽略掉 number 和 string的强制转换。
+	
+	从栈中取得数据的函数是 lua_to* 函数：
+	int lua_toboolean(lua_State *L, int index);
+	const char *lua_tolstring(lua_State *L, int index, size_t *len);
+	lua_Number lua_tonumber(lua_State *L, int index);
+	lua_Integer lua_tointeger(lua_State *L, int index);
+	lua_Unsigned lua_tounsigned(lua_State *L, int index);
+	
+	Lua5.2 之后推荐用以下新的函数来检测number类型:
+	lua_Number lua_tonumberx(lua_State *L, int idx, int *isnum);
+	lua_Integer lua_tointegerx(lua_State *L, int idx, int *isnum);
+	lua_Unsigned lua_tounsignedx(lua_State *L, int idx, int *isnum);
+	其中最后一个参数 isnum 返回的是boolean,用来指示是否是number类型。
+	
+	栈操作方法
+	int lua_gettop		(lua_State *L);
+	int lua_settop		(lua_State *L, int index);
+	int lua_pushvalue	(lua_State *L, int index);
+	void lua_remove		(lua_State *L, int index);
+	void lua_insert		(lua_State *L, int index);
+	void lua_replace	(lua_State *L, int index);
+	void lua_copy		(lua_State *L, int fromidx, int toidx);
+	
+	lua_gettop 返回栈中元素的个数。
+	
+	lua_settop 设置栈的顶部位置。如果之前栈顶的位置比设置的高，则高出的部分全部丢掉;反之，如果之前栈顶的位置比设置的低，则用nil补充。同样可以用负数来指定，用负数来指定的时候，可以用这个宏：
+	#define lua_pop(L,n) lua_settop(L, -(n)-1)
+	
+	lua_pushvalue 复制给定index的元素push到栈中。
+	
+	lua_remove 删除指定索引的元素，然后这个元素之后的元素索引都会-1，用来填补这个空缺。
+	
+	lua_insert 将顶部元素移动到指定索引位置，这个位置之后的索引都会+1，用来调整栈。
+	
+	lua_replace 从栈顶弹出一个元素，然后取代指定位置的元素
+	
+	lua_copy 将一个索引处的元素复制到另一个索引处
+	
+	错误处理
+	当lua抛出异常是会去调用一个 lua_atpanic 函数，你可以通过修改这个函数来捕获异常。但是这种方法所能处理的事情是有限的。
+	恰当的做法是调用 lua_pcall 函数， lua_pcall 会放回一个错误码。
+	lua_error (还有更好的函数 luaL_error， error信息经过调整) 可以捕获异常。
+	
+	应用扩展
+	主要是将lua作为配置来使用，运用了lua的load功能。
+	先调用 luaL_loadfile 来加载块，然后用 lua_pcall 来执行编译块。 一旦出现error，这些函数将错误消息放在栈中并且返回一个非0的错误码。然后我们使用 lua_tostring 去取得栈顶元素得到错误消息。一旦运行了这个块之后，便可以调用 lua_getglobal 来取得全局变量，每一次调用，都会将对应的变量放到栈上，括号里面是针对如下程序的，具体程序需要具体分析（用 lua_isnumber 来判断是否是数字类型，然后用lua_tointeger 转换）。
+	
+	在取得 table 元素的时候， lua5.1用的是 lua_getfield. 而 lua5.2 用的是 lua_gettable.例如：
+	lua_getfield(L, -1, key);
+	被替换为:
+	lua_pushstring(L, key);/*key*/
+	lua_gettable(L, -2);
+	lua_gettable会将对应的键取出，然后替换为table里面的值
+	
+	同时对应取元素还有一个设置元素：lua_5.1 用 lua_setfield, lua_5.2用的是 lua_settable. 例如：
+	lua_pushnumber(L, (double)value);
+	lua_setfield(L, -2, index);
+	被替换为:
+	lua_pushstring(L, index);/* key */
+	lua_pushnumber(L, (double)value)/*value*/
+	lua_settable(L, -3);
+	
+	调用 lua 函数
+	第一步：push function 的名字进去
+	第二步：push function 的参数进去
+	第三步：lua_pcall 调用函数
+	第四步：在栈中取得调用的结果
+	（这章其余的自己看吧，感觉是在是看不下去了，不写点啥真的弄不懂）
+-------------------------------------------------------------------------------------
+26. Lua 调用 C
+
+	在C中声明lua函数，必须符合如下格式：
+	typedef int (*lua_CFunction) (lua_state *L);
+	如：
+	static int l_sin(lua_State *L){
+		return 1;
+	}
+	lua要使用这个函数，必须注册：
+	lua_pushcfunction(L, l_sin);
+	如果要在lua脚本中使用这个函数还需要将其设置为全局变量：
+	lua_setglobal(L, "mysin");
+	
+	以上只是野路子，正确的方法应该是以下做法：
+	调用 luaL_newlib 它会将一个table内的C函数全部注册。例：
+	static int l_dir(lua_State *L){
+		...
+	}
+	
+	static const struct luaL_Reg mylib[] = {
+		{"dir", l_dir},
+		{NULL, NULL}
+	}
+	
+	int luaopen_myulib (lua_State *L)｛
+		luaL_newlib(L, mylib);
+		return 1;
+	｝
+	
+-----------------------------------------------------------------------------------
+27.为编写C函数提供帮助
+	数组的操作：
+	void lua_rawgeti(lua_State *L, int index, int key);
+	等价于：
+	lua_pushnumber(L, key);
+	lua_rawget(L, t);
+	
+	void lua_rawseti(lua_State *L, int index, int key);
+	等价于：
+	lua_pushnumber(L, key);
+	lua_insert(L, -2);
+	lua_rawset(L, t);
+	
+	字符串操作:
+	当一个C函数从lua收到一个字符串参数时必须遵守两条规则：1，不要再访问字符串的时候从栈中弹出它，2，不要修改字符串。
+	
+	如果要将字符串s的子串[i, j]传递给lua，只需要这么做：
+	lua_pushlstring(L, s+i, j-i+1)
+	
+	连接字符串:
+	链接并弹出栈顶的n个值
+	lua_concat(L, n)
+	
+	格式化字符串:
+	const char *lua_pushfstring(lua_State *L, const char *fmt, ...)
+	
+	当链接很多字符串的时候，会造成你懂的性能问题，所以可以采用辅助库的缓冲机制：
+	static int str_upper(lua_State *L){
+		size_t l;
+		size_t i;
+		luaL_Buffer b;
+		const char *s = luaL_checklstring(L, 1, &l);
+		char *p = luaL_buffinitsize(L, &b, l);
+		for(i =0; i < l; i++){
+			p[i] = toupper(uchar(s[i]));
+		}
+		luaL_pushresultsize(&b, l);
+		return 1;
+	}
+	步骤是：
+	1, 先声明一个 luaL_Buffer 变量
+	2, 调用 luaL_bufferinitsize 用指定的size初始化buffer，并得到一个buffer指针，这个buffer会存留一个L的副本。
+	3, 调用luaL_pushresultsize 把 buffer 的内容转变成 lua string 放在栈顶。
+	
+	例：
+	扩展table.conect
+	static int tconcat (lua_State *L){
+		luaL_Buffer b;
+		int i, n;
+		luaL_checktype(L, 1, LUA_TTABLE);
+		n = luaL_len(L, 1);
+		luaL_buffinit(L, &b);
+		for(i = 1; i<=n; i++){
+			lua_rawgeti(L, 1, i);
+			luaL_addvalue(b);
+		}
+		luaL_pushresult(&b);
+		return 1;
+	}
+	
+	函数原型:
+	void luaL_buffinit(lua_State *L, luaL_Buffer *B);
+	void luaL_addvalue(luaL_Buffer *B); //添加栈顶的string元素
+	void luaL_addlstring(luaL_Buffer *B, const char *s, size_t l);//添加指定长度的string元素
+	void luaL_addstring(luaL_Buffer *B, const char *s);//添加'/0'结尾的string元素
+	void luaL_addchar(luaL_Buffer *B, char c);//添加单个字符
+	void luaL_pushresult(luaLbuffer *B);
+	
+	C状态保存
+	//以下是网上截取内容
+	什么叫做在C函数中保存状态？比如你现在使用Lua调用了C函数Func1，但是Func1中有一些数据在调用完以后保存下来，供以后使用。而这些数据就是所谓的状态，也就是我们需要保存的东东。有人就会说了，Lua调用C时，把所有的需要保存的状态都返回到Lua中，当调用下一个函数时，将需要的状态当做参数再传进去，不错，是一个办法，但是很麻烦。方法一：注册表；方法二：环境；方法三：upvalue。
+	注册表是一个全局的table，它只能被C代码访问。通常，可以用它来保存那种需要在几个模块中共享的数据;但是，如果需要保存一个模块的私有数据，那么应该使用环境，与Lua函数一样，每个C函数都有自己的环境table，通常情况下，一个模块内的所有函数共享同一个环境table，由此它们可以共享数据。
+	最后，C函数也可以拥有upvalue，upvalue是一种与特定函数相关联的Lua值
+	
+	注册表	注册表总是位于一个“伪索引”上，这个索引值由LUA_REGISTRYINDEX定义。伪索引就像是一个栈中的索引，但它所关联的值不在栈中；所完这句话，你想到了什么？C++中，使用new开辟空间，这个空间是在堆上开辟的，而指向这个堆的变量却是存放在栈上的。伪索引和这个意思差不多。Lua API中的大多数函数都能接受伪索引，但像lua_remove和lua_insert这种操作栈本身的函数却只能使用普通索引。
+	注册表是一个普通的Lua table，可以使用任何Lua值（nil除外）来索引它。
+	要在这个table中存值，可以用 lua_getflied(L, LUA_REGISTRYINDEX,"Key");
+	1、registry全局注册表
+	解释：一个普通的Lua表，使用假索引(pseudo-index)LUA_REGISTRYINDEX访问。C代码可以访问，Lua代码不能访问。
+	用途：解决C函数保留全局Lua值的问题。
+	注意：所有的C库共享相同的registry，所以对于key的命名需要具有全局唯一性。
+
+		// 获取registry表键值"KEY"对应的值的方法：
+		lua_pushstring(L, "KEY");
+		lua_gettable(L, LUA_REGISTRYINDEX);
+	2、reference引用系统
+	解释：通过一个整数来唯一标识一个Lua数据对象，由两个函数luaL_ref和luaL_unref组成，这对函数用来不需要担心名称冲突的将值保存到registry中去。
+	用途：将一个指向Lua值的reference存储到一个C结构体中，这个reference是一个int的KEY。
+	注意：栈顶值为nil的时候，不会产生reference，luaL_ref函数会返回LUA_REFNIL，而对LUA_REFNIL解引用是没有效果的。
+	重要函数：
+	int luaL_ref (lua_State *L, int t);
+	创建并返回一个引用reference，并将[reference，栈顶值v]加入t对应的表中。
+	void luaL_unref (lua_State *L, int t, int ref);
+	解引用，将t对应的表中的[reference，v]键值对删除。
+
+		// 对栈顶的值v生成一个引用，即将[r， v]存到LUA_REGISTRYINDEX表中
+		int r = luaL_ref(L, LUA_REGISTRYINDEX);
+		// 将一个引用值入栈
+		lua_rawgeti(L, LUA_REGISTRYINDEX, r);
+		// 解引用，即释放reference和值
+		luaL_unref(L, LUA_REGISTRYINDEX, r);
+	3、upvalues机制
+	解释：当创建一个C函数时可以关联一些值，这样就创建了一个C闭包，这些关联值就叫做upvalues。
+	用途：实现了与C static变量等价的概念，这种变量只能在特定的函数内可见。
+	使用：通过lua_upvalueindex(n)生成假索引来访问。
+
+	复制代码
+    // 预声明
+    static int counter (lua_State *L);
+
+    // 创建C闭包的工厂函数
+    int newCounter (lua_State *L)
+    {
+        lua_pushnumber(L, 0);
+        lua_pushcclosure(L, &counter, 1);
+        return 1;
+    }
+
+    // C函数
+    static int counter (lua_State *L)
+    {
+        double val = lua_tonumber(L, lua_upvalueindex(1));
+				lua_pushnumber(L, ++val);   /* new value */
+				lua_pushvalue(L, -1);       /* duplicate it */
+				lua_replace(L, lua_upvalueindex(1));  /* update upvalue */
+				return 1;  /* return new value */
+	}
+	复制代码
+	注意：永远不要使用数字作为registry 的key，因为这种类型的key是保留给reference系统使用。
+	假索引(pseudo-index)的特点：（1）对应的值不在栈中；（2）使用方式类似于栈索引，大多数接受索引为参数的函数都能使用；（3）那些操作栈本身的函数不能使用假索引，比如lua_remove，lua_insert等。
+
+	与Lua闭包(在Lua代码中，一个闭包是一个从外部函数访问局部变量的函数)不同的是，C闭包不能共享upvalues：每一个闭包都有自己独立的变量集。然而，我们可以设置不同函数的upvalues指向同一个表，这样这个表就变成了一个所有函数共享数据的地方。
+
+-------------------------------------------------------------------------------------------
+28.用户自定义类型
+   参考这篇文章
+   http://www.jellythink.com/archives/587
+-------------------------------------------------------------------------------------------
+29.管理资源
+。。。。。。。。
+-----------------------------------------------------------------------------------------
+30.	线程和状态
+http://www.jellythink.com/archives/616
+-----------------------------------------------------------------------------------------------
+31.	内存管理
+http://www.jellythink.com/archives/630
+-----------------------------------------------------------------------------------------------
+32.
+	
+	
+	
+	
+	
 	
 	
 	

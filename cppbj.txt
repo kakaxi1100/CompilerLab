@@ -189,7 +189,336 @@
 	
 3.const引用
 	const引用的主要价值在于效率，通过传递const引用可以做到，函数参数不会制作副本，也能保证原始变量不被修改。
+	
+---------------------------------------------------------------------
+第二章：使用字符串
 
+一.C风格的字符串
+1.C++包含一些来自C语言的字符串操作函数，它们在<cstring>头文件中定义。	可以使用诸如：strcpy(), strlen()....等的函数。
+
+二.字符串字面量
+1.	与字符串字面量关联的真正内存在内存的只读部分。
+	
+2.	C++标准指出：字符串字面量的类型为"n个const char 的数组"，但是为了兼容性，可以将字面量赋值给非const的char*，但是不要尝试修改这个字面量值，这样会引发不可预知的错误。如：
+	char* ptr = "hello";
+	ptr[1] = 'a'; // error!
+	还可以将字符串字面量用作字符数组的初始值，它会将字符串赋值到这个数组，这时修改数组的值，不会影响到字面量。如：
+	char arr[] = "hello";
+	arr[1] = 'a'; // correct!
+	
+三.C++ string 类
+1.	可以应用string的c_str()方法获得一个C风格字符串的const字符指针，不过，一旦string执行了任何内存重分配或string对象被销毁了，这个返回的const指针就失效了。
+	
+2.	源代码中的字符串字面量通常解释为const char*。使用用户定义的标准字面量"s"可以把字符串字面量解释为std::string。如：
+	auto string1 = "hello world"; //string1 will be a const char*
+	auto string2 = "hello world"; //string2 will be an std::string
+	
+3.数值转换
+	将数值转换为字符串
+	string to_string(int val);
+	...
+	
+	将字符串转换为数值
+	int stoi(const string& str, size_t* idx=0, int base=10);
+	...
+
+四.原始字符串字面量
+1. 原始字符串字面量以R"(开头，以)"结尾。如：
+	string str = R"(hello "world"!)";// hello "world"!
+	这个有个问题就是包含的这些字符串中不能有)"，为了解决这个问题可以使用扩展的原始字符串字面量语法：
+	string str = R"-( hello )" world)-"; // hello )" world
+	还记得 lua 中的注释吗 --[=[]=]--， 嗯没错就是那个意思。
+	
+--------------------------------------------------------------------
+第七章：熟悉类和对象
+一.构造函数
+1.	默认构造函数
+	在栈中创建对象时，调用默认构造函数不能使用圆括号。如：
+	class Test 
+	{
+	public:
+		Test() {};
+	};
+	Test t;
+	默认构造函数和无参构造函数是一回事。
+	
+	显示的默认构造函数
+	为了避免手动编写空默认构造函数，C++支持显示默认构造函数。
+	class MyClass
+	{
+	public:
+		MyClass() = default;
+		MyClass(int i);
+	}
+	
+	显示删除构造函数
+	class MyClass
+	{
+	public:
+		MyClass() = delete;
+	}
+	
+2.构造函数初始化器
+	class Test 
+	{
+	public:
+		Test() :mValue(0) {};
+	private:
+		int mValue;
+	};
+	当在构造函数体内给某个对象赋值时，并没有真正创建对象，而只是改变对象的值，而初始化器允许再创建数据成员的时候赋初值，这样比在构造函数内部赋值要高效。并且，假如类中的数据成员时没有默认构造函数的对象，就必须使用初始化器正确地构建这个对象， 这正是初始化器的用途。如：
+	class A 
+	{
+	public:
+		A(int i) :mValue(i) {};
+	private:
+		int mValue;
+	};
+
+	class B
+	{
+	public:
+		B():a(0) {
+
+		};
+	private:
+		A a;
+	};
+	
+	必须在初始化器中初始化的数据类型：
+	const 数据成员
+	引用数据成员
+	没有默认构造函数的对象数据成员
+	没有默认构造函数的基类
+	
+	特别注意：初始化器初始化数据成员的顺序时按照类定义中声明的顺序而不是初始化器列表中的顺序。
+	
+3.复制构造函数
+	class MyClass 
+	{
+	public:
+		MyClass() = default;
+		MyClass(const MyClass& src) {};
+	private:
+		int mValue;
+	};
+	
+	什么时候调用赋值构造函数：
+	1.给函数或者方法传值的时候
+	2.当函数或方法返回对象时，也会调用复制构造函数。在此情况下，编译器使用复制构造函数创建一个临时的，没有名称的对象。
+	
+	显示调用复制构造函数
+	MyClass my1;
+	MyClass my2(my1);
+	
+	按引用传递对象
+	最好按const引用传递而不是按值传递对象。注意引用对象的作用域。
+	
+	显示默认或删除复制构造函数
+	MyClass(const MyClass& src) = default;
+	MyClass(const MyClass& src) = delete;
+	
+4.初始化列表构造函数
+	初始化列表构造函数将 std::initializer_list<T> 作为第一个参数，并且没有任何其它参数。必须包含头文件<initializer_list>。
+	MyClass(initializer_list<int> args)
+	{
+		...
+		for(auto value : args)
+		{
+			...
+		}
+	}
+	
+	MyClass my1 = {1,2,3,4};
+	MyClass my2{1,2,3,4};
+	
+5.类成员初始化器
+	C++11允许再定义类时直接初始化成员变量。如果遇到static和const那么只有staic const 整型成员才能在类定义中初始化。
+	class MyClass 
+	{
+	public:
+		MyClass() = default;
+	private:
+		static const int kIi = 1; // correct
+		//static const string kStr = "static const"; // error
+		//static int sI2 = 2; // error
+		//const int kI3 = 3; // error
+		int mValue = 4;
+		string str = "hello";
+	};
+	
+6.委托构造函数
+	委托构造函数允许构造函数调用同一个类的其它构造函数。
+	class MyClass 
+	{
+	public:
+		MyClass() = default;
+		MyClass(const int i) :mValue(i){};
+		MyClass(const string& initValue) :MyClass(stoi(initValue)) {};
+		int mValue = 4;
+	};
+	
+	特别注意：只能用这种方法在一个构造函数中调用另一个构造函数，如果
+	在构造体内直接调用构造函数 如 MyClass(const string& initValue){MyClass(stoi(initValue)}; 实际上是构造了一个临时对象。
+	
+二.销毁对象
+1. 销毁对象时，会发生两件事：调用对象析构函数，释放对象占用的内存。
+
+2. 栈上对象的销毁顺序与构建顺序相反。
+
+三.对象赋值
+1.C++为所有的类提供了执行赋值的方法，这个方法叫做复制赋值运算符operator=，因为实际上是为类重载了=运算符。赋值完后左边和右边的对象都继续存在。
+
+2.声明赋值运算符
+	class MyClass 
+	{
+	public:
+		MyClass() = default;
+		MyClass& operator=(const MyClass& rhs) {};
+	};
+	
+3.定义赋值运算符
+	赋值运算符不应该阻止自赋值，也不应该在赋值时执行完整操作。
+	所以在定义的时候，需要自检。如：
+	MyClass& operator=(const MyClass& rhs) {
+		if (this == &rhs) {
+			return *this;
+		}
+		...
+	};
+
+4.显示默认或者删除赋值运算符
+	MyClass& operator=(const MyClass& rhs) = default;
+	MyClass& operator=(const MyClass& rhs) = delete;
+	
+四.复制和赋值的区别
+	复制只针对初始化，而赋值是初始化之后，值的改变。
+	
+	在执行构造函数体内的代码之前，编译器将对该成员执行默认的初始化，在构造函数体内的代码是使用的赋值调用。如：
+	MyClass(const MyClass& src) : mString(src.mString) // 复制构造函数
+	{
+		mValue = src.mValue; // 赋值运算符
+	};
+	
+------------------------------------------------------------------------------------------------------------------
+第八章：掌握类与对象
+一.数据成员
+1.静态数据成员
+	不仅要在类定义中列出static类成员，还要在源文件中为其分配内存。
+	
+2.常量数据成员
+
+3.引用数据成员
+	在构造函数中，必须在初始化器中给引用数据成员赋初值。
+	由于初始化一个引用后，不能改变它引用的对象。因此不可能在赋值运算符中对引用赋值。
+
+4.常量引用数据成员
+	要特别注意：常量引用的数据成员只能调用此常量引用数据成员对象的常量方法！如：
+	class A 
+	{
+	public:
+		A(int i) : mValue(i)
+		{
+			mValue = 10;
+		};
+	public:
+		string mString;
+		int& mValue;
+		const int kI1 = 10;
+		const int kI2 = 9;
+		const int& getKI1(){
+			return kI1;
+		};
+		const int& getKI2() const {
+			return kI2;
+		};
+	};
+
+	class B
+	{
+	public:
+		B(int i):a(i)
+		{
+			a.mString;
+			a.mValue;
+			a.kI1;
+			a.getKI1(); // error
+			a.getKI2(); // correct
+		};
+	private:
+		const A& a;
+	};
+	
+二.类方法
+1. 静态方法不属于特定对象，因此没有this指针。
+
+2.静态方法就像一个普通函数，唯一区别在于这个方法可以访问类的private和protected静态数据成员。如果同一类型的其它对象对于静态方法可见， 那么静态方法也可以访问其它对象的private和protected非静态数据成员。如：(貌似非静态函数也可以访问私有属性)
+	class A 
+	{
+	public:
+		A() = default;
+	private:
+		string mStr;
+
+		static int mValue;
+		static int getValue() {
+			return mValue;
+		};
+
+		static void setOtherA(A& a) 
+		{
+			a.mStr = "hello";
+		};
+		
+
+		void setStr(A& a)
+		{
+			a.mStr = "hello";
+		};
+	};
+	
+3.const 方法
+	const 方法表示不会在方法内改变对象的内部值。
+	const 的工作原理是将方法内用到的数据成员都标记为const引用。
+	不能将静态方法声明为const，因为静态方法没有类的实例。
+	
+	非const对象可以调用const方法和非const方法，而const对象只能调用const 方法。
+	
+4.将一个变量定义为mutable数据成员，就可以在const方法中修改它的值。
+
+三.方法重载
+1.可以根据const重载方法。如果时const对象就调用const方法，如果是非const对象就调用非const方法。
+2.重载可以显示的删除，可以用这种方法禁止调用具有特定参数的成员函数。如：
+	class A 
+	{
+	public:
+		A() = default;
+		int getValue() { return mValue; };
+		int getValue() const { return mValue; };
+		int getValue(int i) = delete;
+	private:
+		int mValue;
+	};
+	
+四.默认参数
+1.与AS 类似规则
+
+五.内联方法 inline
+1. 内联方法会将函数体直接插入到调用方法的位置，所以在所有调用了内联函数或者方法的源文件中，内联方法的定义都必须有效。因此，如果编写了内联函数或方法，应该将定义与原型一起放在头文件中。
+
+2.C++提供了另一种声明内联方法的语法，就是不适用inline关键字，而是直接将方法定义放在类定义中，编译器会自动优化。
+
+五.嵌套类
+1.
+	
+
+	
+	
+	
+	
+	
+	
+	
 
 
 
@@ -281,109 +610,6 @@
 
 
 ------------------------------------------------------------------------------
-1. 不要在头文件中用using, 因为这样只要包含了这个头文件的文件就会调用using.
-
-2. 建议用 const 代替 defined 
-
-3. 函数的拖尾返回类型表示方法
-	auto func(int i) -> int
-	{
-		return i + 2;
-	}
-
-4. const
-   1.非 const 可以转变为 const
-   例：
-   void mysteryFuntion(const std::string* somestring)
-   {
-		// *somestring = "Text" //非法
-   }
-   
-   int main()
-   {
-		std::string myString = "The string";
-		mysteryFunction(&myString);
-		return 0;
-   }
-
-   2. const 引用
-   这个概念看起来是有矛盾的, 引用主要是用来在另一个地方改变值, 而 const 是阻止值的改变.
-   const 引用的价值在于效率. 
-   普通向函数传值时, 会制作一个完整的副本. 当用传递引用时,实际上只是传递了一个指向原始数据的指针.
-   所以通过const引用做到了 不需要副本,原始变量也不需要修改.
-   例：
-   void prinString(const std::string& myString)
-   {
-		std::cout<< myString << std::endl;
-   }
-   int main()
-   {
-		std::string someString = "Hello World";
-		prinString(someString);
-		return 0;
-   }
-   
-5. 类型推断
-	两个关键字：auto 和 decltype
-
-	auto
-	1.变量类型推断
-	auto x = 123;
-	2. 函数返回类型推断
-	auto result = getFoo();
-	3.用于lambda表达式
-	4.如前面所说的替代函数语法.
-	
-	decltype是把表达式作为实参来推断
-	int x = 123;
-	decltype(x) y = 456;
-	
-	decltype(auto)
-	const string message = "Test"
-	
-	const string& foo()
-	{
-		return message
-	}
-	使用auto推断表达的类型时会去除 引用 和 const 限定
-	auto f1 = foo();
-	f1被推断为string类型,会建立一个副本.如果要用常量引用,需要改成:
-	const auto& f1 = foo();
-	
-	decltype 没有去除这些先订,但可能导致代码重复.
-	decltype(foo()) f2 = foo();
-	f2是const string& 类型。但是代码重复，因为foo()需要指定两次.
-	
-	所以引入了 decltype(auto)
-	decltype(auto) f3 = foo();
-	f3是 const string& 类型
-	
-二 ，面向对象编程
-以下都是针对类的
-
-1. 默认构造函数
-2. 复制构造函数
-3. 析构函数
-4. 赋值运算符
-5. 当类含有指针时的复制构造函数和赋值运算
-6. 静态数据成员
-7. const 数据成员
-8. 循环include问题。
-9. 静态方法
-10.const 方法
-11.mutable
-12.方法重载
-13.默认参数
-14.内联方法
-15.嵌套类
-16.友元
-17.元算符重载
-18.隐式转换
-19.重载算术运算符
-20.创建稳定的接口
-
-
-xx. 向上转型和向下转型
 
 
 	

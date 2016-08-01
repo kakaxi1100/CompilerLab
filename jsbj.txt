@@ -1,0 +1,445 @@
+第二章 在HTML5中使用JS
+
+1.<script>元素的几个选项（都是可选项）
+	async 	异步加载脚本，只适用于加载外部脚本
+	charset 指定代码的字符集，但是大多浏览器会忽略它的值，所有没有什么卵用
+	defer	表示脚本可以延迟到文档完全被解析和显示之后再执行，只适用于加载外部脚本
+	src		要包含的外部文件
+	type	表示编写代码使用的脚本语言的类型，即MIME，就是告诉别人你这个段数据你要把它当成什么来处理！
+	
+2.调用
+	在解释器对<script>元素内部的所有代码求值完毕以前，页面中的其余内容都不会被浏览器加载或显示！
+	外部的js文件可以不是.js做为扩展名，因为浏览器不会检查包含js的文件的扩展名。但是服务器通产需要看扩展名来决定响应用哪种MIME类型。如果不使用.js扩展名，请确保服务器能返货正确的MIME类型。
+	
+	记住：无论如何包含代码，只要不存在defer和async属性，浏览器都会按照<script>元素在页面中出现的先后顺序对它们依次进行解析！（即第一个<script>块完了，第二<script>块接着来）
+	
+	按惯例所有的<script>元素都应该放在页面的<head>元素中，这种做法的目的就是好看。。。，但是有个弊端，就是要等到 js 代码都被下载解析执行完毕后才能开始呈现内容，因为浏览器遇到<body>标签才开始呈现内容。这回导致浏览器在呈现页面时出现明显的延迟。所以现代web应用程序都把 js 代码引用放在<body>元素中页面的内容后面。这样就能加快显示！如：
+	<body>
+		<!--这里放内容-->
+		<script src="test.js" ></script>
+		<script src="test2.js" ></script>
+	</body>
+	
+3.文档模式
+	如：
+	HTML 5
+	<!DOCTYPE html>
+	这个里主要是影响CSS内容的呈现，某些情况下影响到 js 的解释执行。但是H5都统一了标准。
+------------------------------------------------------------------------
+第三章，javascript 的基本概念
+
+1.严格模式
+	严格模式是为了 js 定义了一种不同的解析与执行模式。在严格模式下，js里一些不确定的行为将得到处理，对某些不安全的操作会抛出错误。
+	
+	可以有两种方式使用严格模式：
+	1)要在整个脚本启用严格模式，可以在顶部添加 "use strict";
+	2)要指定函数使用严格模式，可以在函数内部包含这条语句，如：
+	function foo(){
+		"use strict";
+		//函数体
+	}
+
+	注：严格模式下，js 的执行结果会有很大不同！
+	
+2.变量
+	假如在声明变量时不加 var 那么不论是否在函数内部这个变量会变成一个全局变量
+	如:
+	function foo(){
+		value1 = 100; // 全局变量 （在严格模式下会报错！）
+	}
+	
+	undefined 值是派生自 null 值的，因此它们的相等性测试要返回 true。
+	如：
+	alert(null == undefined);//true
+	alert(null === undefined);//false
+	但是 undefined 和 null 的用途完全不同。无论什么情况下都没有必要把一个变量的值现实的设置为undefined，但是保存null是有意义的。
+	
+	NaN 即 Not a Number
+	NaN与任何值都不想等，包括NaN，可以使用isNaN()来判断一个值是不是NaN，接受的值会进行隐式转换再比较实际是执行了Number()转换。如：
+	isNaN(NaN); // true
+	isNaN(10);// false
+	isNaN("10");// false
+	isNaN("blue");// true
+	isNaN(true);// false
+	
+4.数值转换
+	有三个函数可以把非数值转换为数值：Number(), parseInt(), parseFloat()。
+	其中Number()可以转换任何类型，parseInt()和parseFloat()针对字符串。
+	
+	Number()转换规则：
+	1) Boolean， true = 1， false = 0
+	2) null  = 0
+	3) undefined = NaN
+	4) string 数字直接转，前面带0的如 000011 就去掉0 转成11，"" = 0，其余 NaN
+	5) object 先调用 valueOf() 得到的返回值进行转化，如果转换结果是NaN，那么就调用对象的toString()的返回值进行转换。
+
+	
+5.string
+	调用String()转换和toString()转换的区别
+	String()转换遵循以下规则：
+	1) 如果值有toString()方法, 则调用该方法
+	2) 如果值是null,则返回"null"
+	3) 如果值是undefined, 则返回"undefined"
+	
+6.Object类型
+	Object的每个实例都具有下列属性和方法.
+	1) Constuctor 							保存用于创建当前对象的函数.
+	2) hasOwnProperty(propertyName) 		检查属性是否存在
+	3) isPrototypeOf(object)				用于检查传入的对象是否是另一个对象的原型
+	4) propertyIsEnumerable(propertyName)	用于检查给定的属性是否能够使用for-in语句来枚举.
+	5) toLocaleString()						返回与地区环境对应的对象字符串表示
+	6) toString()							返回对象的字符串表示.
+	7) valueOf()							返回对象的字符串,数值或布尔值表示
+	
+7.label语句
+	用于跳出多重循环的最外一重.如:
+	outmost:
+	for (var i = 0; i < 4; i++) {
+		for (var j = 0; j < 4; j++) {
+			if (i == j) {
+				break outmost;
+			}
+		}
+	}
+	
+	outmost:
+	for (var i = 0; i < 4; i++) {
+		for (var j = 0; j < 4; j++) {
+			if (i == 0 && j == 0) {
+				continue outmost;
+			}
+		}
+	}
+	
+8.with语句(严格语法不允许使用with)
+	with语句的作用是将代码的作用域设置到一个特定的对象中.如:
+	不记录with了,了解即可.
+	
+9.函数
+	argments的应用.
+-------------------------------------------------------------------------------------
+第四章, 变量 ,作用域和内存问题
+
+1.instanceof 可以判断对象是哪个构造函数构造出来的
+
+2.执行环境和作用域.(又是重点, 咦,我怎么说又呢?)
+	执行环境定义了变量或函数有权访问的其它数据.每个执行环境都有一个与之关联的变量对象.环境中定义的所有变量和函数都保存在这个对象中.我们编写的代码可能无法访问这个变量,但是解析器在后台解析数据时会用到它.
+	
+	在web浏览器中,全局环境的变量对象是 window对象.因此所有全局变量和函数都是作为window对象的属性和方法创建的.
+	
+	每个函数都有自己的执行环境.
+	
+	当代码再一个环境中执行时,会创建 变量对象 的一个作用域链.
+	作用域链的用途是保证对执行环境有权访问的所有变量和函数的有序访问.
+	如果这个环境是函数,则将其活动对象作为变量对象.活动对象在最开始时只包含一个变量,即 arguments 对象, 下一个变量对象来自包含的外部环境, 然后一直递推到全局环境.
+	简单的解释是: 把一个石子丢到水里, 然后不断扩散的波纹, 最外层就是全局环境, 里层每个波纹就是一个函数, 选定一个波纹一直找到最外层的波纹, 就是作用域链起到的作用. 
+	
+3.js 没有块级作用域.比如if语句中的变量声明和for循环中的变量声明,会将变量添加到当前的执行环境中.
+
+4.垃圾收集
+	垃圾收集机制主要有两种
+	1) 标记清除 即当变量进入环境时标记为进入环境,当变量离开环境时标记为离开环境, 可能会有一个进入环境列表和离开环境列表. 当变量进入环境时,就不会清除变量.
+	
+	2) 引用计数.无法解决循环引用的问题.即A引用B , B同时也引用 A.
+	
+	js引擎的垃圾回收机制使用标记清除策略.
+	
+	什么时候进行垃圾回收呢?
+	当垃圾收集例程回收的内存分配量低于15%时, 则它就会增加变量, 字面量, 数组元素被回收的临界值. 如果例程回收了85%的内存分配量, 则将各种临界值重置回默认值.
+	
+	全局对象里引用的对象需要手动解除引用,来释放内存.如：
+	function foo(){
+		var o = new Object();
+		return o;
+	}
+	
+	var globalO = foo();
+	globalO = null;
+-------------------------------------------------------------------------------------
+第五章, 引用类型
+
+1.	对象时某个特定引用类型的实例.新对象是使用new操作符后跟一个构造函数来创建的.构造函数本身就是一个函数.
+
+2. 对象的键时字符串类型,可以不用引号,但是会自动转成字符串.如:
+	var person={
+		"name" : "Ares",
+		age : 29,
+		5 : true //会将 5 转成字符串
+	}
+	
+3.在通过对象字面量定义对象时，实际上不会调用Object构造函数。
+	
+4.Array类型
+	Array对象的length属性是可以赋值的。赋值之后如果长度与原来的不符，就会相应的增长或截取。增长的空间元素时 undefined。
+	
+	判断是否Array类型可以调用 Array.isArray(value)，用这个方法取代instanceof.
+	
+	
+5.函数类型 特别重要！！！！ 但是在地铁上看了。。。。笔记就没做。
+
+...
+
+-------------------------------------------------------------------------------------
+第六章, 面向对象的程序设计	
+
+......
+	
+x1.in 操作符, hasOwnProperty 只会检测当前实例 , in 操作符会沿着 原型链往上找
+	语法:"property" in Object	
+
+x2.Object.keys()方法可以取得当前对象上所有可枚举的实例属性, 这个方法可以接受一个对象作为参数,返回一个包含所有可枚举属性的字符串数组.
+	var P = function () {};
+	P.prototype.name = "a";
+	var p1 = new P();
+	p1.age = 10;
+	var keys = Object.keys(P.prototype);//name
+	keys = Object.keys(p1);//age
+	
+x3.Object.getOwnPropertyNames()可以获取当前对象包含不可枚举的属性.
+
+x4.构建对象中使用最广泛的是组合使用构造函数模式和原型模式
+	构造函数模式用于定义实例
+	原型模式用于定义方法和共享的属性
+	//构造函数模式部分
+	function Person(name, age, job){
+		this.name = name;
+		this.age = age;
+		this.job = job;
+		this.friends = ["A", "B];
+	}
+	//原型模式部分
+	Person.prototype = {
+		constructor:Person,//只有原型对象才自带constructor属性，这里新创建了一个对象，所有手动加上constructor属性
+		sayName:function(){
+			alert(this.name);
+		}
+	}
+	
+	var person1 = new Person("haha", 29, "X");
+	var person2 = new Person("heihei", 27, "Y");
+	
+	person1.friens.push('C');
+	alert(person1.friends);//A,B,C
+	alert(person2.friends);//A,B
+
+x5.继承
+	借用构造函数: 把构造函数当普通函数使用
+	function SuperType(){
+		this.colors = ["red", "blue", "green"];
+	}
+	funciton SubType(){
+		SuperType.call(this);//调用父类构造函数
+	}
+	
+	组合继承: 借用构造函数和原型继承一起使用
+	function SuperType(name){
+		this.name = name;
+		this.colors = ["red", "blue", "green"];
+	}
+	
+	SuperType.prototype.sayName = function(){
+		alert(this.name);
+	}
+	
+	function SubType(name, age){
+		SuperType.call(this, name);
+		//...
+	}
+	
+	SubType.prototype = new SuperType();//这里不能直接写  SuperType.prototype, 如果直接=SuperType.prototype，那么当你为SubType.prototype添加属性的时候，就会影响到SuperType.prototype	
+	
+	原型继承: 
+	function object(o){
+		function F(){}
+		F.prototype = o;
+		return new F();
+	}
+	
+	var person={name:"A", friends:["X","Y"]};
+	var anotherPerson = object(person);
+	anotherPerson.friends.push("Z");
+	alert(anoterhPerson.name) // A
+	
+	ECMAscripte 用Object.create() 规范了原型继承， 这个方法接手两个参数，一个用作新对象原型的对象和一个为新对象顶一个额外属性的对象.
+	var yetAnotherPerson = Object.create(person);
+	alert(yetAnotherPerson.friends)// X, Y, Z
+	
+	寄生组合式继承：有两个要点 ： 第一个，寄生， 第二个，借用构造函数
+	//为什么要用F包装一下而不是直接等于SuperType.prototype，在组合创建对象的时候说过了，就是当SubType.prototype添加属性的时候，不会影响到SuperType.prototype
+	 function object(o) {
+		function F() {}
+		F.prototype = o; //寄生！
+		return new F();
+	}
+
+	function inheritPrototype(subType, superType) {
+		var prototype = object(superType.prototype);
+		prototype.constructor = subType;
+		subType.prototype = prototype;
+	}
+
+	var SuperType = function (name) {
+		this.name = name;
+		this.colors = ["red", "blue", "green"];
+	}
+
+	SuperType.prototype.sayName = function () {
+		alert(this.name);
+	}
+
+	var SubType = function (name, age) {
+		SuperType.call(this, name);//借用构造函数
+		this.age = age;
+	}
+
+	inheritPrototype(SubType, SuperType);
+	SubType.prototype.sayAge = function () {
+		alert(this.age);
+	}
+
+	var instance = new SubType("Ares", 22);
+	instance.sayAge();
+	instance.sayName();
+
+	var instance2 = new SubType("Ares", 22);
+	instance2.colors.push("black");
+	alert(instance2.colors);
+	alert(instance.colors);
+
+-------------------------------------------------------------------------------------
+第七章, 函数表达式
+1.函数声明有个重要特性,就是函数声明提升.
+
+2.函数递归
+	在严格模式和非严格模式下都可以运行的递归调用方法。
+	var foo = (function f(num){
+		if(num < 1) return 1;
+		else return num*f(num-1);//注意这里的函数名
+	});
+	
+3.闭包
+	闭包和匿名函数是不一样的意思
+	闭包指的是有权访问另一个函数作用域的变量的函数。
+	创建闭包的常用方法，就是在一个函数内部创建另一个函数。
+	
+	7.2节很对闭包的剖析很重要，如果不懂，请仔细看一遍。
+	
+	闭包中的this对象 非常关键！！
+	例：
+	var name = "The Window";
+	
+	var object = {
+		name : "My Object",
+		getNameFunc : function(){
+			return function(){
+				alert(this.name);
+			}
+		}
+	}
+	object.getNameFunc()();// The Window
+	
+	分析：
+	1.object.getNameFunc 的 当前环境（也可以理解为它的全局环境）是object
+	2.object.getNameFunc() 返回的函数的当前环境是全局环境，所以执行这个匿名函数时，this 是 window对象。
+	
+	例：
+	var name = "The Window";
+	
+	var object = {
+		name : "My Object",
+		getName : function(){
+			return this.name;
+		}
+	}
+	
+	object.geName(); // My Object
+	(object.getName)(); // My Object
+	(Object.getName = Object.getName)(); // The Window
+	我知道你一定会问我第三条为什么，为什么第三条会这样？？举个例子你就明白了。
+	这条语句相当于把一个函数赋值给一个变量
+	Object.getName = function(){return this.name};
+	进一步简化：
+	foo = function(){return this.name};
+	从这里可以看出它已经脱离了当前环境。所以this值被改变！
+
+	....
+
+-------------------------------------------------------------------------------------
+第八章,BOM
+
+....
+
+x1.窗口位置
+	不同的浏览器，分别用 screenleft, screenTop 和 screenX, screenY来表示窗口相对于屏幕左边和上边的位置.
+	所以我们一般这样取得位置:
+	var leftPos = (typeof window.screenLeft == "number")?window.screenLeft:window.screenX;
+	
+x2.setTimeout的代码都是在全局作用域中执行的,因此函数中的this的值在非严格模式下是window,在严格模式下是undefined.
+
+x3.location对象
+	window.locatoin和document.location引用的是同一个对象.
+	location 的几个属性:
+	
+	http://www.xxx.com/path/#contents?q=javascript
+	
+	hash  			#contents
+	host			www.xxx.com:8080
+	hostname		www.xxx.com
+	href			http://www.xxx.com
+	pathname		/path/
+	port			"8080"
+	protocol		http:
+	search			?q=javascript
+	
+	这些属性都是即可读又可写的，除了设置hash之外，设置其它属性都会刷新页面，并且产生历史记录。
+	如果不想产生历史记录，可以使用 location 的replace 属性。
+	location.replace("http://www.xxx.com");
+	
+	如果要重新加载页面可以使用location的reload属性
+	location.reload();	//有可能重缓存加载
+	location.reload(true); //重服务器重新加载
+	
+x4.navigator对象
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

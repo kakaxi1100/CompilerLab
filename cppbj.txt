@@ -509,46 +509,638 @@
 2.C++提供了另一种声明内联方法的语法，就是不适用inline关键字，而是直接将方法定义放在类定义中，编译器会自动优化。
 
 五.嵌套类
-1.
+1. 即在类中可以定义类。
+	class A 
+	{
+	public:
+		class B {
+		public:
+			B() = default;
+			int getMValue();
+		private:
+			int mValue;
+		};
+		A() = default;
+	};
+
+	int A::B::getMValue() {
+		return A::B::mValue;
+	}
+	也可以简化为
+	using AB = A::B;
+	int AB :: getMValue()
+	{
+		return 10;
+	}
 	
+六.类内的枚举类型
+1.用枚举类型比用#define要好
+	class A 
+	{
+	public:
+		A() = default;
+		enum class Colors{red = 1, green, blue, yellow};
+		void setColor(Colors color);
+	private:
+		Colors mColor = Colors::red;
+	};
+
+	void A::setColor(Colors color)
+	{
+		mColor = color;
+	}
+	
+七.友元
+1.友元可以访问类的protected，private 数据成员和方法。
+
+2. 友元可以针对整个类，也可以针对某个成员函数， 也可以针对全局函数。
+	friend void B;
+	friend void B::setA(A& a);
+	friend void checkError(A& a);
+
+3.只有在特定的情况下如运算符重载才应该使用友元。
+
+八.运算符重载
+1. 运算符重载是函数重载的一种形式，函数重载对函数的返回类型没有要求。
+以加号为例来看如何编写运算符重载，operator和加号之间可以使用空格，也可以不使用空格。
+	class A 
+	{
+	public:
+		A() = default;
+		A operator+(const A& rhs) const 
+		{
+			A a;
+			a.mValue = this->mValue + rhs.mValue;
+			return a;
+		}
+	private:
+		int mValue;
+	};
+	
+2.运算符的隐式转换
+	class A
+	{
+	public:
+		A() = default;
+		A(int i) :mValue(i) {};
+		A operator+(const A& rhs) const 
+		{
+			A a;
+			a.mValue = this->mValue + rhs.mValue;
+			return a;
+		}
+	private:
+		int mValue;
+	};
+	A a1;
+	A a2 = a1 + 3;// 会将 3 转换成一个临时的A对象，调用A(int i)构造函数，如果没有这个构造函数，那么这句报错。
+				  // 但是反过来相加不行
+				  
+3. 可以使用 explicit 关键字来标记构造函数，禁止隐式转换。explicit 关键字只在类定义内使用，只适用于只有一个参数的构造函数，包括单参数构造函数或为参数提供默认值的多参构造函数。
+
+九.全局operator+
+1.隐式转换可以让类和int或double相加，但是这种运算不具有互换性，不能让int或double与类相加。此时可以用全局operator+来解决这个问题。如：
+	A operator+(conat A& lhs, const A& rhs)
+	{
+		...
+	}
+	因为此时可能需要访问 A 类的私有数据成员，所以应将此方法声明为A类的友元。
+	
+-----------------------------------------------------------------------------------------------------------------------------------
+第九章：揭秘继承技术
+一.使用继承构建类
+1.继承的运行方式是单向的，子类拥有父类的信息，但是父类并不知道子类的信息。
+
+2.指向某个对象的指针或者引用可以指向声明类的对象，也可以指向其任意派生类的对象。如：Super* spp = new Sub();但此时Super不能调用Sub独有的方法。
+
+3.可以在类后面标记 final 来表示此类不能被继承。
+
+二.重写方法
+1.重写基类的方法，需要在基类中将需要重写的方法声明为 virtual 才行。在方法定义中不需要重复使用virtual。一旦将方法或者析构函数标记为virtual，它们在所有派生类中就一直是virtual，即使没有显示声明为virtual。
+	class Super 
+	{
+	public:
+		Super() = default;
+		virtual void foo() { cout << "Super foo" << endl; };
+		void someMethod() { cout << "Super someMethod" << endl; };
+	};
+
+	class Sub :public Super
+	{
+	public:
+		Sub() = default;
+		void foo() override { cout << "Sub foo" << endl; };
+		void someOtherMethod() { cout << "Sub someOtherMethod" << endl; };
+	};
+	Sub sub;
+	Super& super = sub;
+	super.foo(); // Sub foo 假如基类没有写明是 virtual 那么这里就是 Super foo
+	super.someOtherMethod();//error
+
+2.可以将子类转换为父类，或者将子类赋值给父类， 因为子类是一个父类。如果将一个子类赋值给一个父类，那么子类的所有特性将丢失。重写方法和派生类数据的丢失称为截断。
+
+3. 可以将方法标记为final，这意味着无法在派生类中重写这个方法。
+
+三.利用父类
+1.创建对象时必须同事创建父类和包含于其中的对象。创建的顺序如下：
+	1) 如果某个类具有基类，执行基类的默认构造函数，或者在初始化器中指定的基类构造函数。
+	2) 类的非静态数据成员按照声明的顺序创建。
+	3) 执行该类的构造函数
+	注：如果派生类重写了基类中的虚方法，那么从基类构造函数中调用该方法，就会调用该虚方法的基类实现，而不是派生类中的重写版本。
+	
+2.由于析构函数没有参数，因此始终可以自动调用父类的析构函数。析构的顺序如下：
+	1) 调用类的析构函数。
+	2) 销毁类的数据成员。
+	3) 如果有父类调用父类的析构函数。
+	注：析构函数必须声明为虚方法，否则，在删除一个指向派生类的基类指针时，它不会递归调用派生类的析构函数。如:
+	class Super 
+	{
+	public:
+		Super() = default;
+		~Super() { cout << "~Super()" << endl; };//  需要声明为虚函数
+	};
+
+	class Sub :public Super
+	{
+	public:
+		Sub() = default;
+		~Sub() { cout << "~Sub()" << endl; };
+	};
+	Super* p = new Sub();
+	delete p; // error , 只调用基类的析构函数 ~Super()
+
+3. 使用父类方法
+	假如子类中调用的某个方法是直接父类中所没有的，那么它会沿着继承树想上找，直到找到调用或者报错。如：
+	class Super 
+	{
+	public:
+		Super() = default;
+		virtual ~Super() { cout << "~Super()" << endl; };
+		virtual void foo() { cout << "find me in Super" << endl; };
+	};
+
+	class Sub :public Super
+	{
+	public:
+		Sub() = default;
+		~Sub() { cout << "~Sub()" << endl; };
+	};
+
+	class SubSub :public Sub
+	{
+	public:
+		SubSub() = default;
+		~SubSub() { cout << "~SubSub()" << endl; };
+		virtual void foo() override { cout << "SubSub "; Sub::foo(); };// 注意用的时 Sub::foo() 而在Sub中未重写foo
+	};	
+	SubSub subsub;
+	subsub.foo(); // SubSub find me in Super
+
+四.向上转型和向下转型
+1. 子类转为基类即向上转型。如果直接将子类赋值给基类则会发生截断，需要将子类赋值给基类指针或者引用来避免截断的发生。
+
+2. 将基类转换为派生类叫向下转型。C++不赞成这种做法。在使用向下转型时一定要使用 dynamic_cast。如果针对某个指针的dynamic_cast失败，这个指针的值就是nullptr，并抛出异常 std::bad_cast。如：
+	Super* p = dynamic_cast<Sub*>(onesub); //举得例子居然是向上转型，我也是醉了
+	if(mySub != nullptr){...}
+
+
+五.纯虚方法和抽象基类
+1.纯虚方法在类定义中显示说明该方法不需要定义。如果某个类包含了一个或者多个纯虚方法，就无法构建这种类型的对象。纯虚方法的语法是在虚函数声明后紧接着一个=0。如：virtual void someMethod() = 0;
+
+2.如果一个类中有纯虚方法，那么这个类就是抽象类。因为它不能实例化。
+
+注意：假如抽象类是作为基类使用，那么必须将析构函数声明为virtual。
+
+六.多重继承
+	
+	记住：多重继承最好的用法就是当接口用！！
+
+1.名称冲突
+	如果又两个父类拥有同一个方法，那么子类在调用时就不知道时调用那个父类的方法，从而报错。为了解决这个问题，可以：
+	1) 显示的向上转型，本质是向编译器隐藏多余的方法。
+	2) 用域操作符指明调用的是哪个父类的方法
+	3) 使用using语句显示指定，调用哪个父类的方法。如： using Super::somemethod;
+	
+2.歧义基类
+	两个父类 A,B 有一个共同的祖父类 S， 有一个共同的子类C， 如果在S中有一个 方法 foo， 在C中调用，那么就会引起歧义。因为并不知道这个foo 来自于 A 的继承版本还是 B的继承版本。
+	解决方法：
+	1) 将S类设置为抽象类，在子类中显示指定调用 A 还是 B 的 foo 方法。
+
+七.有趣而晦涩的继承问题
+1.在C++中，如果原始的返回类型是某个类的指针或者引用，重写的方法可以将返回类型改为派生类的指针或者引用。这种类型称为协变返回类型。
+
+2.如果在派生类的定义中使用父类虚方法的名称，但是参数与父类中同名方法的参数不同，那么这不是重写父类的方法，而是创建一个新方法。并且原始的方法被隐藏。如果需要父类的找个方法，那么就需要用using显示指定派生类包含这个方法。如：
+	不使用using：
+	class Super 
+	{
+	public:
+		virtual void foo() { cout << "Super foo()" << endl; };
+	};
+
+	class Sub :public Super
+	{
+	public:
+		virtual void foo(int i) { cout << "Sub foo(int i)" << endl; };
+	};
+	Sub sub;
+	sub.foo();//error 因为这个方法被覆盖了。
+	
+	使用using：
+	class Super 
+	{
+	public:
+		virtual void foo() { cout << "Super foo()" << endl; };
+	};
+
+	class Sub :public Super
+	{
+	public:
+		using Super::foo;
+		virtual void foo(int i) { cout << "Sub foo(int i)" << endl; };
+	};
+	Sub sub;
+	sub.foo();//correct using 显示指定了方法
+	
+3.为了避免方法被覆盖的情况，在子类重写父类方法时，最好加上override关键字，这样在编译时就会报错。
+
+4.在C++中，不能重写静态方法。 方法不可能既是静态的又是虚的。如果派生类中存在的静态方法与基类中的静态方法同名，那么实际上这是两个独立的方法。
+
+5.当子类重写基类中的某个重载方法时，基类的其它重载方法，将对子类隐藏。可以通过两个方法来避免对子类的隐藏，第一个用指针或引用来向上转型，第二，用using语句来接收所有父类的同类方法。如：
+	错误示例：
+	class Super 
+	{
+	public:
+		virtual void foo() {};
+		virtual void foo(int i) {};
+	};
+
+	class Sub :public Super
+	{
+	public:
+		virtual void foo() {};
+	};
+	Sub sub;
+	sub.foo(1);//error!
+	
+	Sub sub;
+	Super& p = sub;
+	p.foo(1);//correct
+	
+	using示例：
+	class Super 
+	{
+	public:
+		virtual void foo() {};
+		virtual void foo(int i) {};
+	};
+
+	class Sub :public Super
+	{
+	public:
+		using Super::foo;
+		virtual void foo() {};
+	};
+	Sub sub;
+	sub.foo(1);//correct
+	
+6.当基类方法具有默认值时，子类的重写方法可以用不同的默认值。但是当实际指向子类的父类指针调用这个方法时，虽然调用的是子类方法，但是用的是父类的默认值。原因是C++根据描述对象的表达式类型在编译时绑定默认值，而不是根据实际的对象类型绑定默认值。
+
+7.派生类中的赋值构造函数和赋值运算符
+	如果派生类省略了复制构造函数或者operator=， 派生类中指定的数据成员就是用默认的复制构造函数或者operator=，基类中的成员使用基类的复制构造函数或者operator=。
+	如果派生类指定了复制构造函数，就需要显示的链接到父类的复制构造函数，如果不这么做，将使用默认构造函数来初始化对象的父类部分。
+	
+8.virtual的真相
+	
+9.运行时类型工具
+	dynamic_cast，如果在没有虚方法的类上使用dynamic_cast，会导致编译错误。
+	typeid，运行时检查对象是否是某种类型，至少有一个虚方法typeid运算符才能正常运行。typeid运算符的主要价值之一在于日志和调试。
+	
+八.虚基类
+1.虚基类可以消除歧义基类。
+	class Super 
+	{
+	public:
+		virtual void foo() {};
+	};
+
+	class Sub1 :public virtual Super
+	{
+
+	};
+
+	class Sub2 :public virtual Super
+	{
+
+	};
+
+	class SubSub :public Sub1, public Sub2
+	{
+
+	};
+	SubSub sb;
+	sb.foo();//correct
+	
+----------------------------------------------------------------------------------------------------------------------
+第十章：理解灵活而奇特的C++
+一.引用
+1.创建引用时必须总是初始化它，通常会在声明引用时对其初始化，但是对于包含类而言，需要在构造函数初始化器中初始化引用数据成员。
+
+2.不能创建对未命名值的引用，除非这个引用是一个const值。
+	如：
+	int& unnamedRef1 = 5; // error
+	const int& unnamedRef2 = 5; //correct
+	
+3.引用一旦创建就无法修改。在初始化引用之后无法改变引用所指的变量。
+
+4.对引用取地址的结果与对被引用变量取地址的结果相同。
+
+5.无法声明引用的引用，也无法声明指向引用的指针。
+
+6.指针的引用时合法的。 如：int* intP; int*& ptrRef = intP;
+
+7.引用数据成员(具体参见第八章)。
+	class MyClass
+	{
+	public:
+		MyClass(int& ref):mRef(ref){}
+	private:
+		int& mRef;
+	};
+	
+8.当引用作为返回值时，注意只有涉及的对象在函数终止后仍然存在的情况下才能使用这一技巧！！！
+	错误示范：
+	int& foo(int a) {
+		int& p = a;
+		return p;
+	}
+	int& a = foo(5);//编译可以通过，但是 a 的值并不正确！！
+
+9.如果不需要改变所指的地址，就应该使用引用而不是指针。
+
+10.右值引用。 int a = 3,b = 4;int&& j = a + b;
+
+11.可以使用 std::move() 将左值转换成右值。
+
+二.移动语义
+记住：移动语义是针对对象的！！！并且只有在知道源对象会被销毁的情况下，移动语义才有意义！
+
+1.对象的移动语义需要实现移动构造函数和移动赋值运算符。
+
+2.使用移动语义的条件：源对象是在复制或者赋值结束后被销毁的临时对象。
+
+3.移动构造函数和移动赋值运算符将成员变量从源对象复制/移动到新对象，然后将源对象的变量设置为空值。
+
+4.移动构造函数和移动赋值运算符应使用 noexcept 限定符标记，表示它们不会抛出任何异常。因为，假如在移动的时候报了错误，那么里面动态分配的内存就无法释放！
+
+三. const关键字
+1.const int* p 等价于 int const* p 表示p所指向的内容不能修改； int* const p 表示p本身不能被修改。
+
+2.const引用
+
+3.const方法
+
+4.constexpr关键字，常量表达式，用来实际表明表达式是一个常量。如：
+	错误示范：
+	const int getArraySize() { return 32; };
+	int myArray[getArraySize()];// error! 必须在编译期间就能得到值
+	
+	正确示范：
+	constexpr int getArraySize() { return 32; };
+	int myArray[getArraySize()];// correct! 在编译期间就能得到值
+
+5.常量表达式需要满足的要求：
+	1) 函数体是一个 return 语句，不包含 goto 或 try catch块，也不抛出异常， 但可以调用其它的constexpr函数。经测试，连if语句都不能包含。
+	2) 函数的返回类型应该是字面量类型，返回值不能是void。
+	3) 如果constexpr函数是一个类成员，那么这个函数不能是虚函数。
+	4) 函数所有的参数都应该字面量类型。
+	5) 只有在定义了constexpr函数之后，才能调用这个函数，因为编译器需要知道完整的定义。
+	6) 不允许使用 dynamic_cast。
+	7) 不允许使用new 和 delete。
+	
+6.constexpr构造函数，满足条件：
+	1) 构造函数的所有参数都应该是字面量类型。
+	2) 构造函数体应该满足与constexpr函数体相同的要求。
+	3) 所有数据成员都应该用常量表达式初始化。
+	如：
+	class A
+	{
+	public:
+		constexpr A(int v) :mValue(v) {};
+		constexpr int getValue() const { return mValue; };
+	private:
+		int mValue;
+	};
+	constexpr A a(10); // 这里一定要带上constexpr关键字
+	int myArray[a.getValue()];// correct!
+	
+四.static关键字
+1.静态数据成员和方法。
+
+2.静态(内部)链接： C++ 每个源文件都是单独编译的， 编译得到的目标文件会彼此链接。外部链接意味着这个名称在其它源文件中也有效，内部链接意味着在其它源文件中无效。简单点说，就是假如一个变量或者函数前面加上了static就只能在本源文件中方法。替代方法是用匿名的namespace。
+
+五.extern关键字
+1.extern 正好和 static 相反，它会将它后面的名称指定为外部链接。
+
+2.const 和 typedef 默认情况下是内部链接，，可以使用extern使其变为外部链接。
+
+3.当指定某个名称为extern时，编译器将这条语句当作声明，而不是定义。例：extern int x; int x = 3; 或 extern int x = 3;
+
+4.函数中的静态变量表示，只能在函数内部访问的全局变量。
+
+六.非局部变量的初始化和销毁顺序
+非局部变量的初始化和销毁顺序都是不确定的！
+1.程序中所有的局部变量和类的静态数据成员都会在 main()开始之前初始化。
+
+七.类型和类型转换
+1.typedef
+	typedef MyInt int;
+	typedef int (*FuncType)(char, double);
+
+2.类型别名
+ using MyInt = int;
+ using FuncType = int(*)(char, double);
+ 
+八.类型转换
+C++提供了四种类型转换：static_cast, dynamic_cast, const_cast, reinterpret_cast。
+
+1.const_cast 可以去掉对象的常量属性。如：
+	void foo(char* s) {
+		cout << s << endl;
+	}
+	const char* s = "hello";
+	char* s1 = const_cast<char*>(s);
+	foo(s)// error!
+	foo(s1);//correct!
+	
+2.static_cast 它会显示的执行C++语言支持的转换。static_cast 它可以实现向下转换，但是它不提供运行期间的类型检测，所以不要用它进行对象的类型转换。
+
+3.reinterpret_cast 可以用它执行一些在技术上不被C++类型规则允许的转换。安全性特别差。如：可以将某种引用类型转换为其他引用类型，即使这两个引用类型并不相关。reinterpret_cast不会执行任何类型检测。
+
+4.dynamic_cast 为继承层次结构内的类型转换提供运行时检测。可以用它来转换指针或引用。如果检测到转换没有意义，返回一个空指针，或者抛出一个 std::bad_cast 异常。使用dynamic_cast 要求类至少包含一个虚方法。
+
+九.作用域解析
+1.全局作用域没有名称，但是可以用 :: 来指定使用的内容来自全局作用域。
+
+十. C++11/C++14
+1.统一初始化 可以使用花括号和圆括号对对象进行初始化。如：
+	int a = 3; int b(3); int c = {3}; int d{3};
+
+	还可以用统一初始化把变量初始化为0。如：int e{};
+
+	使用统一初始化可以阻止窄化。如：
+	void foo(int i) {};
+	int x = 3.14;// 3 
+	foo(x);//3
+	int y = { 3.14 };// error
+	foo({ 3.14 });// error
+
+	统一初始化还可以用于STL容器
+	vector<string> myVec = {"a","b"};
+	
+	统一初始化还可以用来初始化动态分配数组
+	int* pArray = new int[4]{0,1,2,3};
+	
+	统一初始化还可以在构造函数中初始化类成员数组
+	class A
+	{ 
+	public: 
+		A():mArray{0,1,2,3}{} 
+	private: 
+		int mArray[4];
+	}
+	
+2.初始化列表
+	初始化列表定义在 <initializer_list> 头文件中。初始化列表中所有的元素都应该是同一种预定义类型。
+	如：
+	void foo(initializer_list<int> lst) 
+	{
+		for (const auto& v : lst)
+		{
+			cout << v << endl;
+		}
+	};
+	foo({ 1,2,3,4 });
+
+3.显示转换运算符
+	explicit 关键字的使用并不局限于构造函数，还可以用于转换运算符。如果想要转换必须显示调用转换运算符。如：static_cast
+	
+4.特性
+	[[noreturn]], [[carreis_dependency]],[[deprecated]]
+
+5.用户自定义自变量
+	用户定义的字面量应该以下划线开头，并通过编写字面量运算符来实现。如：
+	string operator"" _s(const char* str, size_t len){return string(str, len)};
+	string str1 = "hello"_s;
+	
+	C++14 定义了如下标准的用户定义字面量：
+	
+	s1 用户创建 std:string
+	h, min, s, ms, us, ns 用于创建 std::chrono::duration 时间段
+	i, il, if 用于创建复数的 complex<double>, complex<long double>, complex<float>
+
+十一.头文件中
+1.	使用头文件需要注意避免循环引用或者多次包含同一个头文件。#ifndef机制可用来避免循环包含和多次包含。如：
+	#ifndef LOGGER_H
+	#define LOGGER_H
+	....
+	#endif
+	
+	如果编译器支持 #pragma once 也可以用这条指令来保证只加载一次。 
+	
+2. 前置声明是另一个避免头文件问题的方法。在代码中无法真正使用这个类，但是可以使用这个类的指针或引用。
+
+3.建议尽可能在头文件中使用前置声明，而不是包含其它头文件。
+
+4.前置声明解决了两个class互相依赖的问题。如：
+	A.h	
+	#pragma once
+	class B;//不完整类型
+	class A 
+	{
+	public:
+		A() = default;
+		void fooA(B& b);//error
+		B& b;
+		
+		//B b; //error 由于是不完整类型所以无法知道其所占内存大小，但是指针知道。
+	};
+	
+	B.h
+	#pragma once
+	class A;
+	class B
+	{
+	public:
+		B() = default;
+		void fooB(A& a);
+	};
+	
+	A.cpp
+	#include "A.h"
+	#include "B.h"
+	void A::fooA(B& b)
+	{
+		b.fooB(*this);
+	}
+	
+	B.cpp
+	#include "B.h"
+	#include "A.h"
+	void B::fooB(A& a)
+	{
+		a.fooA(*this);
+	}
+	
+十二. C 的实用工具
+1.变长参数列表
+
+2.预处理器宏
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+第十一章：利用模版编写泛型代码
+一.类模版定义
+	templete <typename T>
 
 	
 	
+-------------------------------------------------------------------------
+第十四章：运算符重载
+一.概述
+1.重载元算符时，需要编写名为operatorX 的函数，X 是表示这个运算符的符号，可以在operator和X之间添加空格。
+
+2.方法还是全局函数
+	区别： 当运算符是类的方法时，运算符表达式的左侧必须是这个类的对象。当编写全局函数时，运算符表达式的左侧可以是不同类型的对象。
 	
+	三种情况：
+	1) 必须为方法的运算符 比如 = ，因为这个运算符在全局函数中没有意义。
+	2) 必须为全局函数的运算符，如 <<, >> 因为这些运算符的左侧必须是ostream
+	3) 如果既可以为方法有可以是全局函数的元算符 建议尽可能的定义为方法。因为可以用 virtual 继承这些运算符。
 	
+3. 选择参数时，尽量选择引用类型和const 类型。
+
+4. 返回类型。
+
+---------------------------------------------------------------------------------------
+第十八章：字符串本地化与正则表达式
+一.正则表达式语法
+1.贪婪匹配和非贪婪匹配
+1         概述  贪婪与非贪婪模式影响的是被量词修饰的子表达式的匹配行为，贪婪模式在整个表达式匹配成功的前提下，尽可能多的匹配，而非贪婪模式在整个表达式匹配成功的前提下，尽可能少的匹配。非贪婪模式只被部分NFA引擎所支持。  属于贪婪模式的量词，也叫做匹配优先量词，包括： “{m,n}”、“{m,}”、“?”、“*”和“+”。 
+ 在一些使用NFA引擎的语言中，在匹配优先量词后加上“?”，即变成属于非贪婪模式的量词，也叫做忽略优先量词，包括：  “{m,n}?”、“{m,}?”、“??”、“*?”和“+?”。  从正则语法的角度来讲，被匹配优先量词修饰的子表达式使用的就是贪婪模式，如“(Expression)+”；被忽略优先量词修饰的子表达式使用的就是非贪婪模式，如“(Expression)+?”。  
+ 对于贪婪模式，各种文档的叫法基本一致，但是对于非贪婪模式，有的叫懒惰模式或惰性模式，有的叫勉强模式，其实叫什么无所谓，只要掌握原理和用法，能够运用自如也就是了。个人习惯使用贪婪与非贪婪的叫法，所以文中都会使用这种叫法进行介绍。  
+ 
+ 2        贪婪与非贪婪模式匹配原理  对于贪婪与非贪婪模式，可以从应用和原理两个角度进行理解，但如果想真正掌握，还是要从匹配原理来理解的。  先从应用的角度，回答一下“什么是贪婪与非贪婪模式？” 
+ 2.1      从应用角度分析贪婪与非贪婪模式 
+ 2.1.1   什么是贪婪与非贪婪模式  
+ 先看一个例子 举例：  源字符串：aa<div>test1</div>bb<div>test2</div>cc 
+正则表达式一：<div>.*</div> 
+匹配结果一：<div>test1</div>bb<div>test2</div> 
+正则表达式二：<div>.*?</div> 匹配结果二：<div>test1</div>  根据上面的例子，从匹配行为上分析一下，什是贪婪与非贪婪模式。  正则表达式一采用的是贪婪模式，在匹配到第一个“</div>”时已经可以使整个表达式匹配成功，但是由于采用的是贪婪模式，所以仍然要向右尝试匹配，查看是否还有更长的可以成功匹配的子串，匹配到第二个“</div>”后，向右再没有可以成功匹配的子串，匹配结束，匹配结果为“<div>test1</div>bb<div>test2</div>”。当然，实际的匹配过程并不是这样的，后面的匹配原理会详细介绍。  仅从应用角度分析，可以这样认为，贪婪模式，就是在整个表达式匹配成功的前提下，尽可能多的匹配，也就是所谓的“贪婪”，通俗点讲，就是看到想要的，有多少就捡多少，除非再也没有想要的了。  正则表达式二采用的是非贪婪模式，在匹配到第一个“</div>”时使整个表达式匹配成功，由于采用的是非贪婪模式，所以结束匹配，不再向右尝试，匹配结果为“<div>test1</div>”。  仅从应用角度分析，可以这样认为，非贪婪模式，就是在整个表达式匹配成功的前提下，尽可能少的匹配，也就是所谓的“非贪婪”，通俗点讲，就是找到一个想要的捡起来就行了，至于还有没有没捡的就不管了。 
+ 2.1.2   关于前提条件的说明  在上面从应用角度分析贪婪与非贪婪模式时，一直提到的一个前提条件就是“整个表达式匹配成功”，为什么要强调这个前提，我们看下下面的例子。 正则表达式三：<div>.*</div>bb 匹配结果三：<div>test1</div>bb  修饰“.”的仍然是匹配优先量词“*”，所以这里还是贪婪模式，前面的“<div>.*</div>”仍然可以匹配到“<div>test1</div>bb<div>test2</div>”，但是由于后面的“bb”无法匹配成功，这时“<div>.*</div>”必须让出已匹配的“bb<div>test2</div>”，以使整个表达式匹配成功。这时整个表达式匹配的结果为 “<div>test1</div>bb”，“<div>.*</div>”匹配的内容为“<div>test1</div>”。可以看到，在“整个表达式匹配成功”的前提下，贪婪模式才真正的影响着子表达式的匹配行为，如果整个表达式匹配失败，贪婪模式只会影响匹配过程，对匹配结果的影响无从谈起。 非贪婪模式也存在同样的问题，来看下面的例子。 正则表达式四：<div>.*?</div>cc  匹配结果四：<div>test1</div>bb<div>test2</div>cc  这里采用的是非贪婪模式，前面的“<div>.*?</div>”仍然是匹配到“<div>test1</div>”为止，此时后面的“cc”无法匹配成功，要求“<div>.*?</div>”必须继续向右尝试匹配，直到匹配内容为 “<div>test1</div>bb<div>test2</div>”时，后面的“cc”才能匹配成功，整个表达式匹配成功，匹配的内容为“<div>test1</div>bb<div>test2</div>cc”，其中“<div>.*?</div>”匹配的内容为 “<div>test1</div>bb<div>test2</div>”。可以看到，在“整个表达式匹配成功”的前提下，非贪婪模式才真正的影响着子表达式的匹配行为，如果整个表达式匹配失败，非贪婪模式无法影响子表达式的匹配行为。 
 	
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+....
+---------------------------------------------------------------------------------------
+第十九章：其它库工具
+一.
 
 
 

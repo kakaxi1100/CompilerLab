@@ -1,0 +1,34 @@
+2D Game Collision Detection: An Introduction to Clashing Geometry in Games (英语) 平装 – 2012年10月2日
+Thomas Schwarzl (作者)（已购电子版）
+
+Game Graphics Programming (英语) 精装 – 2008年6月26日
+Allen Sherrod (作者)
+
+Artificial Intelligence for Games, Second Edition (英语) 精装 – 2009年8月20日
+Ian Millington (作者), John Funge (作者)
+
+The Book of Shaders
+by Patricio Gonzalez Vivo and Jen Lowe
+
+
+文章
+
+2D 光照
+http://ncase.me/sight-and-light/
+http://www.wholehog-games.com/devblog/2013/06/07/lighting-in-a-2d-game/
+http://www.mattgreer.org/articles/dynamic-lighting-and-shadows/
+http://www.gamedev.net/page/reference/index.html/_/technical/graphics-programming-and-theory/dynamic-2d-soft-shadows-r2032
+http://www.redblobgames.com/articles/visibility/
+http://www.yoyogames.com/blog/99
+http://frankforce.com/?p=2614
+http://frankforce.com/?page_id=1733
+http://www.gamasutra.com/blogs/OliverFranzke/20140828/224326/Dynamic_2D_Character_Lighting.php?noheader=1
+
+动态书
+http://pixelshaders.com/
+
+例子：
+http://www.kerneltrick.com/download/shadow/
+
+
+

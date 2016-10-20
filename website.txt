@@ -1,20 +1,25 @@
 图形特效
 这个一定要看, 几乎所有效果都有 牛逼！！！
-http://blog.innerdrivestudios.com/
-http://www.innerdrivestudios.com/blog/as2-displacement-maps/displacement-maps-basics
+	http://blog.innerdrivestudios.com/
+	http://www.innerdrivestudios.com/blog/as2-displacement-maps/displacement-maps-basics
 
 
-//以下可以略过
-http://www.codeproject.com/Articles/247214/Quadrilateral-Distortion
+//--------------------------以下是辅助,可以略过--------------------------------------------
+	http://www.codeproject.com/Articles/247214/Quadrilateral-Distortion
 
-http://www.flipcode.com/archives
+	http://www.flipcode.com/archives
 
-http://jump-map.tumblr.com/post/132225799048/affine-distortion-algorithms?is_related_post=1
+	http://jump-map.tumblr.com/post/132225799048/affine-distortion-algorithms?is_related_post=1
 
-http://ryoushin.com/cmerighi/en-US/2006-09-30_21/Quadrilateral_Distortion_Algorithm
+	http://ryoushin.com/cmerighi/en-US/2006-09-30_21/Quadrilateral_Distortion_Algorithm	
 
-http://www.vcskicks.com/image-distortion.php
+	http://www.vcskicks.com/image-distortion.php
 
-http://insolitdust.sourceforge.net/code.html
+	http://insolitdust.sourceforge.net/code.html
 
-http://www.senocular.com/flash/tutorials/transformmatrix/
+	http://www.senocular.com/flash/tutorials/transformmatrix/
+//----------------------------------------------------------------------------------------
+
+
+OGL Step by Step （非常详细的3D入门系列教学）
+	http://ogldev.atspace.co.uk/

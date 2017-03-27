@@ -1,0 +1,2 @@
+type 					account			PW
+E*TRADE stock			*1828		   ~L*3

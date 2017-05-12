@@ -1,2 +1,3 @@
 type 					account			PW
 E*TRADE stock			*1828		   ~L*3
+www.lynda.com			*@ea.com		L*8

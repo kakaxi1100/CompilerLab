@@ -3,6 +3,7 @@
 	http://blog.innerdrivestudios.com/
 	http://www.innerdrivestudios.com/blog/as2-displacement-maps/displacement-maps-basics
 
+	http://www.flashandmath.com/
 
 //--------------------------以下是辅助,可以略过--------------------------------------------
 	http://www.codeproject.com/Articles/247214/Quadrilateral-Distortion
@@ -19,15 +20,21 @@
 
 	http://www.senocular.com/flash/tutorials/transformmatrix/
 //----------------------------------------------------------------------------------------
+仿3D教程 Mode 7
+https://www.coranac.com/tonc/text/mode7.htm
 
-
+//----------------------------------------------------------------------------------------
 OGL Step by Step （非常详细的3D入门系列教学）
 	http://ogldev.atspace.co.uk/
 	
 游戏相关
 https://www.indienova.com/indie-game-development-channel/gameengine/page/2/
-
+https://www.indienova.com/indie-game-development/tile-based-line-of-sight-explained/
 https://www.indienova.com/indie-game-development/rooms-and-mazes-a-procedural-dungeon-generator/
+https://gamedevelopment.tutsplus.com/tutorials/make-a-neon-vector-shooter-in-xna-the-warping-grid--gamedev-9904
+https://gamedevelopment.tutsplus.com/tutorials/how-to-generate-shockingly-good-2d-lightning-effects--gamedev-2681
+https://gamedevelopment.tutsplus.com/tutorials/make-a-splash-with-dynamic-2d-water-effects--gamedev-236
+https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 
 http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
@@ -35,4 +42,11 @@ https://www.indienova.com/home/welcome
 
 https://www.indienova.com/indie-game-development/engine-unreal-engine-4/
 
-https://item.taobao.com/item.htm?spm=a230r.1.14.57.0oxE1p&id=552440787761&ns=1&abbucket=10#detail
+https://simonschreibt.de/tag/diablo-2/
+
+https://github.com/jhuckaby/Effect-Games
+
+http://www.lonesock.net/article/verlet.html
+https://www.reddit.com/r/gamedev/comments/fgmcd/how_do_you_create_the_grid_distortion_effect_as/
+
+http://paul.siramy.free.fr/_divers/dt1_doc/

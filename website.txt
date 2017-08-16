@@ -4,6 +4,8 @@
 	http://www.innerdrivestudios.com/blog/as2-displacement-maps/displacement-maps-basics
 
 	http://www.flashandmath.com/
+	
+	http://lodev.org/cgtutor/
 
 //--------------------------以下是辅助,可以略过--------------------------------------------
 	http://www.codeproject.com/Articles/247214/Quadrilateral-Distortion
@@ -40,6 +42,8 @@ http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
 https://www.indienova.com/home/welcome
 
+http://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
+
 https://www.indienova.com/indie-game-development/engine-unreal-engine-4/
 
 https://simonschreibt.de/tag/diablo-2/
@@ -50,3 +54,19 @@ http://www.lonesock.net/article/verlet.html
 https://www.reddit.com/r/gamedev/comments/fgmcd/how_do_you_create_the_grid_distortion_effect_as/
 
 http://paul.siramy.free.fr/_divers/dt1_doc/
+
+http://www.fredheintz.com/
+
+http://www.newsdee.com/swf/labs/Mode7.swf
+
+http://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
+
+http://www.helixsoft.nl/articles/circle/sincos.htm
+
+https://www.omnimaga.org/computer-c-and-c-help/decent-mode-7-tutorial/
+
+http://www.emanueleferonato.com/2011/10/13/develop-a-flash-game-like-string-avoider-as3-version-and-more/
+http://www.emanueleferonato.com/2014/06/10/html5-string-avoider-game-made-with-phaser/
+http://www.emanueleferonato.com/2007/07/12/creation-of-a-game-like-string-avoider-tutorial/
+
+https://www.zhihu.com/question/35430956

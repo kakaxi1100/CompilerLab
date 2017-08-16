@@ -1,6 +1,11 @@
-type 					account			PW
+type 					account			PW                                             nodes
 E*TRADE stock			*1828		   ~L*3
 www.lynda.com			*@ea.com		L*8
 *理工大学号				*炬				302046013
 *理工大学档案室	        电话			029-83212393
 *理工大学				地址			山西省西安市碑林区金花南路5号*理工大学
+报销					JULI			L*8                                       https://appseartprod2.oracleoutsourcing.com/
+																		          OA_HTML/RF.jsp?function_id=28716&resp_id=-1&
+																			      resp_appl_id=-1&security_group_id=0&params=4T-UUK9nSsxcmZ6ZaAoH.g
+
+ 

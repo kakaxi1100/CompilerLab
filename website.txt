@@ -22,13 +22,26 @@
 
 	http://www.senocular.com/flash/tutorials/transformmatrix/
 //----------------------------------------------------------------------------------------
-仿3D教程 Mode 7
+仿3D教程
 https://www.coranac.com/tonc/text/mode7.htm
+http://www.newsdee.com/swf/labs/Mode7.swf
+http://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
+https://www.reddit.com/r/gamedev/comments/57jdds/a_c_doomstyle_engine_tutorial/
+https://github.com/Dooskington/Rustcaster
+https://www.youtube.com/watch?v=HQYsFshbkYw
+http://www.extentofthejam.com/pseudo/
+https://code.tutsplus.com/tutorials/create-a-racing-game-without-a-3d-engine--active-8853
+https://dev.opera.com/articles/3d-games-with-canvas-and-raycasting-part-1/
+https://www.scirra.com/tutorials/534/pseudo-3d-games
+http://codeincomplete.com/posts/javascript-racer-v1-straight/
 
 //----------------------------------------------------------------------------------------
+3D 教程
 OGL Step by Step （非常详细的3D入门系列教学）
-	http://ogldev.atspace.co.uk/
+http://ogldev.atspace.co.uk/
 	
+https://tutsplus.com/authors/kyle-sloka-frey?_ga=2.145946420.1015169689.1503566760-490803705.1502787787
+//----------------------------------------------------------------------------------------	
 游戏相关
 https://www.indienova.com/indie-game-development-channel/gameengine/page/2/
 https://www.indienova.com/indie-game-development/tile-based-line-of-sight-explained/
@@ -37,6 +50,7 @@ https://gamedevelopment.tutsplus.com/tutorials/make-a-neon-vector-shooter-in-xna
 https://gamedevelopment.tutsplus.com/tutorials/how-to-generate-shockingly-good-2d-lightning-effects--gamedev-2681
 https://gamedevelopment.tutsplus.com/tutorials/make-a-splash-with-dynamic-2d-water-effects--gamedev-236
 https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
+https://gamedevelopment.tutsplus.com/articles/40-fantastic-game-development-tutorials-from-across-the-web--gamedev-3384
 
 http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
@@ -55,11 +69,9 @@ https://www.reddit.com/r/gamedev/comments/fgmcd/how_do_you_create_the_grid_disto
 
 http://paul.siramy.free.fr/_divers/dt1_doc/
 
+flash demo
 http://www.fredheintz.com/
 
-http://www.newsdee.com/swf/labs/Mode7.swf
-
-http://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
 
 http://www.helixsoft.nl/articles/circle/sincos.htm
 
@@ -70,3 +82,36 @@ http://www.emanueleferonato.com/2014/06/10/html5-string-avoider-game-made-with-p
 http://www.emanueleferonato.com/2007/07/12/creation-of-a-game-like-string-avoider-tutorial/
 
 https://www.zhihu.com/question/35430956
+
+https://gamedevelopment.tutsplus.com/series/how-to-build-a-prince-of-persia-style-time-rewind-system--cms-1061
+https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-ios--cms-560
+--------------------------------------------------------------------------------------------------------------------
+物理引擎开发
+https://gamedevelopment.tutsplus.com/series/how-to-create-a-custom-physics-engine--gamedev-12715
+https://code.google.com/archive/p/box2d/downloads?page=1
+http://elancev.name/oliver/2D%20polygon.htm
+http://www.metanetsoftware.com/technique/tutorialA.html
+http://chrishecker.com/Rigid_body_dynamics
+http://www.randygaul.net/2013/03/27/game-physics-engine-part-1-impulse-resolution/
+http://www.draknek.org/physics/cs310-report.pdf
+http://www.cs.cmu.edu/~baraff/sigcourse/
+---------------------------------------------------------------------------
+Unofficial Windows Binaries for Python Extension Packages
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame
+
+--------------------------------------------------------------------------
+2D动态光及阴影
+http://www.redblobgames.com/articles/visibility/
+http://www.java-gaming.org/index.php?topic=27012.0
+http://www.gmlscripts.com/forums/viewtopic.php?id=1657
+https://forum.starling-framework.org/topic/spriteilluminator-2d-dynamic-lighting
+http://blog.greweb.fr/2012/05/illuminated-js-2d-lights-and-shadows-rendering-engine-for-html5-applications/#underthehood
+https://gamedevelopment.tutsplus.com/tutorials/building-a-dynamic-shadow-casting-engine-in-as3--active-8317
+http://board.flashkit.com/board/showthread.php?798017-WIP-Dynamic-2d-Lighting-as3-0
+--------------------------------------------------------------------------
+如何学算法
+https://www.zhihu.com/question/21318658
+--------------------------------------------------------------------------
+HTML5
+http://www.kevs3d.co.uk/dev/
+

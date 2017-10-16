@@ -7,5 +7,8 @@ www.lynda.com			*@ea.com		L*8
 报销					JULI			L*8                                       https://appseartprod2.oracleoutsourcing.com/
 																		          OA_HTML/RF.jsp?function_id=28716&resp_id=-1&
 																			      resp_appl_id=-1&security_group_id=0&params=4T-UUK9nSsxcmZ6ZaAoH.g
+社保					0010			8*3											http://www.12333sh.gov.cn/sbsjb/wzb/226.jsp	  
+中智关爱平台			16U8763         L*3											http://life.ciicsh.com/
+LOL                     873211449 		ailei4126
 
  

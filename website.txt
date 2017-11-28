@@ -95,6 +95,8 @@ http://chrishecker.com/Rigid_body_dynamics
 http://www.randygaul.net/2013/03/27/game-physics-engine-part-1-impulse-resolution/
 http://www.draknek.org/physics/cs310-report.pdf
 http://www.cs.cmu.edu/~baraff/sigcourse/
+http://cowboyprogramming.com/2008/04/01/practical-fluid-mechanics/
+https://gafferongames.com/tags/physics/     联网的物理处理方法
 ---------------------------------------------------------------------------
 Unofficial Windows Binaries for Python Extension Packages
 http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame
@@ -114,4 +116,8 @@ https://www.zhihu.com/question/21318658
 --------------------------------------------------------------------------
 HTML5
 http://www.kevs3d.co.uk/dev/
+----------------------------------------------------------------------------
+视觉设计
+https://www.zhihu.com/question/22017067
+https://thebookofshaders.com/
 

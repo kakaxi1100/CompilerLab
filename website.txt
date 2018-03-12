@@ -97,6 +97,14 @@ http://www.draknek.org/physics/cs310-report.pdf
 http://www.cs.cmu.edu/~baraff/sigcourse/
 http://cowboyprogramming.com/2008/04/01/practical-fluid-mechanics/
 https://gafferongames.com/tags/physics/     联网的物理处理方法
+https://www.myphysicslab.com/  各种物理效果
+https://www.toptal.com/game/video-game-physics-part-i-an-introduction-to-rigid-body-dynamics
+https://www.zhihu.com/question/26574544 书单
+http://www.opengpu.org/home.php?mod=space&do=home 论坛
+http://creativejs.com/2013/10/squishy-earth/index.html
+http://byronknoll.blogspot.jp/2013/10/deformable-textures-in-html5-canvas.html
+http://2sa-studio.blogspot.jp/2014/05/soft-bodies-with-cocos2d-v3.html
+
 ---------------------------------------------------------------------------
 Unofficial Windows Binaries for Python Extension Packages
 http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame
@@ -117,7 +125,16 @@ https://www.zhihu.com/question/21318658
 HTML5
 http://www.kevs3d.co.uk/dev/
 ----------------------------------------------------------------------------
-视觉设计
+视觉设计 shader
 https://www.zhihu.com/question/22017067
 https://thebookofshaders.com/
+https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-fundamentals.html
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+代码训练
+https://www.codingame.com/
+
+--------------------------------------------------------------------------------------------------------------------------------
+暗黑相关
+https://www.zhihu.com/question/26094849/answer/70508940?group_id=645752699598073856
+https://www.zhihu.com/question/20105317

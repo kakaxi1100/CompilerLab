@@ -1,6 +1,6 @@
 图形特效
 这个一定要看, 几乎所有效果都有 牛逼！！！
-	http://blog.innerdrivestudios.com/
+	http://www.innerdrivestudios.com/blog/
 	http://www.innerdrivestudios.com/blog/as2-displacement-maps/displacement-maps-basics
 
 	http://www.flashandmath.com/
@@ -35,7 +35,11 @@ https://dev.opera.com/articles/3d-games-with-canvas-and-raycasting-part-1/
 https://www.scirra.com/tutorials/534/pseudo-3d-games
 http://codeincomplete.com/posts/javascript-racer-v1-straight/
 http://lodev.org/cgtutor/raycasting.html
-http://www.flipcode.com/archives/Realtime_Voxel_Landscape_Engines-Part_1_Introduction.shtml 体素方法
+http://www.playfuljs.com/
+体素方法
+https://github.com/s-macke/VoxelSpace
+http://www.flipcode.com/archives/Realtime_Voxel_Landscape_Engines-Part_1_Introduction.shtml
+http://www.sohu.com/a/158499470_292495
 //----------------------------------------------------------------------------------------
 3D 教程
 OGL Step by Step （非常详细的3D入门系列教学）
@@ -146,8 +150,14 @@ https://smtebooks.com/
 http://www.oldpcgaming.net
 教学网-学堂在线
 http://www.xuetangx.com/courses/search?query=%E9%82%93%E4%BF%8A%E8%BE%89
+-----------------------------------------------------------------------------------
+webGL
+https://webglfundamentals.org/
+------------------------------------------------------------------------------------
+https://search.bilibili.com/all?keyword=%E5%BE%AE%E7%A7%AF%E5%88%86%E7%9A%84%E6%9C%AC%E8%B4%A8&from_source=banner_search&spm_id_from=333.338.banner_link.1
 
-
+-----------------------------------------------------
+SFML, Allegro, SDL
 
 
 

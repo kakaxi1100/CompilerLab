@@ -79,6 +79,7 @@ Real-Time Visual Effects for Game Programming
 人工智能书单
 https://www.leiphone.com/news/201610/Bo67kHXGUcXbDFAL.html
 https://blog.csdn.net/T7SFOKzorD1JAYMSFk4/article/details/79073686
+http://www.techug.com/post/awesome-artificial-intelligence.html
 
 
 sdl sfml allegro

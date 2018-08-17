@@ -1,6 +1,8 @@
 2D Game Collision Detection: An Introduction to Clashing Geometry in Games (英语) 平装 – 2012年10月2日
 Thomas Schwarzl (作者)（已购电子版）
 
+Real-Time Collision Detection (CRC Press; 1 edition (December 22, 2004)  Amazon Digital Services LLC)
+
 Game Graphics Programming (英语) 精装 – 2008年6月26日
 Allen Sherrod (作者)
 
@@ -30,5 +32,53 @@ http://pixelshaders.com/
 例子：
 http://www.kerneltrick.com/download/shadow/
 
+豆瓣游戏标签书单
+https://www.douban.com/doulist/36326400/?start=0&sort=time&sub_type=
+
+8本游戏开发书籍推荐
+http://www.kuqin.com/shuping/20090702/60255.html
+
+引擎系列
+3D Game Engine Architecture
+Ultimate 3D Game Engine Design & Architecture
+Game Engine Black Book: Wolfenstein 3D
+3D Game Engine for Multiplayer Online Games
+3D Game Engine Design, Second Edition
+Build your own 2D Game Engine and Create Great Web Games: Using HTML5, JavaScript, and WebGL
+https://max.book118.com/html/2016/0229/36382515.shtm
+
+Data-driven gameplay systems
+chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=http%3A%2F%2Fweb.eecs.umich.edu%2F~soar%2FClasses%2F494%2Ftalks%2FSchumaker.pdf
+https://gamedevelopment.tutsplus.com/articles/what-is-data-oriented-game-engine-design--cms-21052
+https://www.danielsefton.com/2016/05/developing-a-data-oriented-game-engine-part-1/
+http://gamearchitect.net/Articles/DataDrivenDesign.html
+chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=https%3A%2F%2Fpdfs.semanticscholar.org%2Fpresentation%2F0882%2Fc0967cc002b4b6513501e7a1542b8c8920e1.pdf
+chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=http%3A%2F%2Fgamedevs.org%2Fuploads%2Fdata-driven-game-object-system.pdf
+
+Artificial Intelligence, including individual & group behaviors, planning, and pathing
+(artificial intelligence in games)
+chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=http%3A%2F%2Fgameaibook.org%2Fbook.pdf
+chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=http%3A%2F%2Flecturer.ukdw.ac.id%2F~mahas%2Fdossier%2Fgameng_AIFG.pdf
+chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=http%3A%2F%2Fwww.cs.uni.edu%2F~schafer%2F4620%2Freadings%2FAi%2520Techniques%2520For%2520Game%2520Programming.pdf
+chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=https%3A%2F%2Fldc.usb.ve%2F~vtheok%2Fcursos%2Fci5325%2Flecturas%2FArtificial%2520Intelligence%2520for%2520Games.pdf
+
+Networked multiplayer systems
+https://gamedevelopment.tutsplus.com/tutorials/building-a-peer-to-peer-multiplayer-networked-game--gamedev-10074
+
+Procedural content generation techniques
+http://pcg.wikidot.com/category-pcg-algorithms
+http://pcgbook.com/
+Procedural Generation in Game Design
 
 
+动态视觉特效
+Real-Time Visual Effects for Game Programming
+
+
+
+人工智能书单
+https://www.leiphone.com/news/201610/Bo67kHXGUcXbDFAL.html
+https://blog.csdn.net/T7SFOKzorD1JAYMSFk4/article/details/79073686
+
+
+sdl sfml allegro

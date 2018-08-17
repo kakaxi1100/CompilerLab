@@ -1100,8 +1100,11 @@ C++提供了四种类型转换：static_cast, dynamic_cast, const_cast, reinterpret_cast。
 第十一章：利用模版编写泛型代码
 一.类模版定义
 	templete <typename T>
-
 	
+二.非类型模版参数
+
+三.模板编译
+当编译器遇到一个模板定义时，它不生成代码，只有当我们实例化出模板的一个特定版本时，编译器才会生成代码。	
 	
 -------------------------------------------------------------------------
 第十四章：运算符重载
@@ -1146,10 +1149,98 @@ C++提供了四种类型转换：static_cast, dynamic_cast, const_cast, reinterpret_cast。
 
 
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+书面笔记
+
+函数续
+
+constexpr 函数
+constexpr 函数被隐式的指定为内联函数，所以它会在执行的地方展开
+
+常量表达式的运算得到的也是一个常量表达式
 
 
+函数指针
+例:
+声明:
+bool (*pf)(const string &, const string&);
+赋值：
+pf = lengthCompare;
+等价于：
+pf = &lengthCompare;
+调用:
+bool b1 = pf("hello", "goodbye");
+bool b2 = (*pf)("hello", "goodbye");
+bool b3 = lengthCompare("hello", "goodbye");
+
+函数指针形参
+例:
+void useBigger(const string& s1, const string& s2, bool pf(const string&, const string&));
+等价于：
+void useBigger(const string& s1, const string& s2, bool (*pf)(const string&, const string&));
 
 
+返回函数指针
+using PF = int(*)(int*, int);
+PF f1(int);
+
+尾置返回类型
+auto f1(int)->int(*)(int*, int);
+
+使用decltype
+string::size_type sumLength(const string&, const string&);
+
+decltype(sumLength) *getFun(const string&);
+当decltype作用于某个函数时，他返回函数类型而非指针， 必须显示加上*来表示我们需要返回的是指针。
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+类
+类中this的类型是一个常量指针但是它指向的是非常量。 即 classtype *const
+
+在成员函数后面加上const 可以把this变为 const classtype *const 即 变成一个指向常量的常量指针
+
+可变数据成员
+mutable 成员
+一个可变数据成员永远不会是const 即使他是const对象的成员
+class Screen
+{
+void some_member() const;
+mutable size_t access_ctr;
+}
+
+void Screen::some_member() const
+{
+	++access_ctr;
+}
+
+
+类中的const 和 引用成员必须被初始化
+
+
+类型转换
+static_cast, dynamic_cast, const_cast, reinterpret_cast
+
+
+动态内存
+shared_ptr, unique_ptr, weak_ptr
+
+lambda表达式
+lambda 具有一个返回类型，一个参数列表和一个函数体
+lambda 可以定义在函数内部, 可以忽略参数列表和返回类型
+lambda 不能有默认参数
+[capture list](parameter list)->return type{function body}
+capture list：所在函数中定义的局部变量的列表
+
+lambda 值捕获和引用捕获
+可变labmda 被值捕获的值是不能改变的, 如要改变需要加上mutable标识符
+int v = 10;
+auto f = [v]() mutable ->int  {return ++v; };
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+可调用对象
+五种: 函数，函数指针，lambda表达式，bind创建的对象 和 重载了函数调用运算符的类operater()
+function 可以将它们的类型都统一起来实现统一调用
 
 
 

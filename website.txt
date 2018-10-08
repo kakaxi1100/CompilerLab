@@ -172,6 +172,17 @@ http://www.freepdf-download.com
 语言设计
 https://www.evget.com/article/2017/12/28/27584.html
 
+技术博客
+http://t-machine.org/index.php/2007/09/03/entity-systems-are-the-future-of-mmog-development-part-1/
+
+Implementation a multithread compile-time ESC in C++ 14
+https://www.youtube.com/watch?v=51qSGUtaJwc
+
+ESC AS3 实例以及完美解释
+https://www.richardlord.net/blog/ecs/what-is-an-entity-framework.html
+
+一个2D游戏引擎
+https://savas.ca/nomad
 
 
 

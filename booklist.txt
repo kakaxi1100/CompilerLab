@@ -83,3 +83,4 @@ http://www.techug.com/post/awesome-artificial-intelligence.html
 
 
 sdl sfml allegro
+spatial hashing

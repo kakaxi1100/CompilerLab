@@ -184,6 +184,21 @@ https://www.richardlord.net/blog/ecs/what-is-an-entity-framework.html
 一个2D游戏引擎
 https://savas.ca/nomad
 
+空间哈希 性能改善
+https://gamedevelopment.tutsplus.com/tutorials/redesign-your-display-list-with-spatial-hashes--cms-27586
+http://zufallsgenerator.github.io/2014/01/26/visually-comparing-algorithms/
+
+数据驱动设计
+https://www.youtube.com/watch?v=16ZF9XqkfRY
+
+http://www.randygaul.net/2013/05/20/component-based-engine-design/
+
+3d游戏引擎视频
+https://www.youtube.com/playlist?list=PLEETnX-uPtBXP_B2yupUKlflXBznWIlL5&app=desktop
+thebennybox超级牛B游戏教学视频！！！！所有你想要的都在这里
+https://www.youtube.com/user/thebennybox/playlists
+https://www.patreon.com/thebennybox
+
 
 
 

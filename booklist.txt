@@ -47,13 +47,14 @@ Game Engine Black Book: Wolfenstein 3D
 Build your own 2D Game Engine and Create Great Web Games: Using HTML5, JavaScript, and WebGL
 https://max.book118.com/html/2016/0229/36382515.shtm
 
+
 Data-driven gameplay systems
-chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=http%3A%2F%2Fweb.eecs.umich.edu%2F~soar%2FClasses%2F494%2Ftalks%2FSchumaker.pdf
+https://web.eecs.umich.edu/~soar/Classes/494/talks/Schumaker.pdf
 https://gamedevelopment.tutsplus.com/articles/what-is-data-oriented-game-engine-design--cms-21052
 https://www.danielsefton.com/2016/05/developing-a-data-oriented-game-engine-part-1/
 http://gamearchitect.net/Articles/DataDrivenDesign.html
 chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=https%3A%2F%2Fpdfs.semanticscholar.org%2Fpresentation%2F0882%2Fc0967cc002b4b6513501e7a1542b8c8920e1.pdf
-chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=http%3A%2F%2Fgamedevs.org%2Fuploads%2Fdata-driven-game-object-system.pdf
+https://www.gamedevs.org/uploads/data-driven-game-object-system.pdf
 
 Artificial Intelligence, including individual & group behaviors, planning, and pathing
 (artificial intelligence in games)

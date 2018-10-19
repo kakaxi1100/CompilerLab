@@ -109,6 +109,7 @@ http://www.opengpu.org/home.php?mod=space&do=home 论坛
 http://creativejs.com/2013/10/squishy-earth/index.html
 http://byronknoll.blogspot.jp/2013/10/deformable-textures-in-html5-canvas.html
 http://2sa-studio.blogspot.jp/2014/05/soft-bodies-with-cocos2d-v3.html
+https://gafferongames.com/
 
 ---------------------------------------------------------------------------
 Unofficial Windows Binaries for Python Extension Packages
@@ -204,6 +205,9 @@ https://www.scribd.com/books
 
 BillBox Crush the app store webinar
 https://www.youtube.com/watch?v=jrTfh9OWVYw
+
+也是youtube的教程
+https://www.youtube.com/user/handmadeheroarchive/playlists
 
 
 

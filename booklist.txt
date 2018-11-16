@@ -48,13 +48,12 @@ Build your own 2D Game Engine and Create Great Web Games: Using HTML5, JavaScrip
 https://max.book118.com/html/2016/0229/36382515.shtm
 
 
-Data-driven gameplay systems
+Data-driven gameplay systems (已阅 ECS 框架)
 https://web.eecs.umich.edu/~soar/Classes/494/talks/Schumaker.pdf
 https://gamedevelopment.tutsplus.com/articles/what-is-data-oriented-game-engine-design--cms-21052
 https://www.danielsefton.com/2016/05/developing-a-data-oriented-game-engine-part-1/
 http://gamearchitect.net/Articles/DataDrivenDesign.html
-chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=https%3A%2F%2Fpdfs.semanticscholar.org%2Fpresentation%2F0882%2Fc0967cc002b4b6513501e7a1542b8c8920e1.pdf
-https://www.gamedevs.org/uploads/data-driven-game-object-system.pdf
+
 
 Artificial Intelligence, including individual & group behaviors, planning, and pathing
 (artificial intelligence in games)
@@ -66,7 +65,7 @@ chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?f
 Networked multiplayer systems
 https://gamedevelopment.tutsplus.com/tutorials/building-a-peer-to-peer-multiplayer-networked-game--gamedev-10074
 
-Procedural content generation techniques
+Procedural content generation techniques(正在阅读....)
 http://pcg.wikidot.com/category-pcg-algorithms
 http://pcgbook.com/
 Procedural Generation in Game Design
@@ -82,6 +81,14 @@ https://www.leiphone.com/news/201610/Bo67kHXGUcXbDFAL.html
 https://blog.csdn.net/T7SFOKzorD1JAYMSFk4/article/details/79073686
 http://www.techug.com/post/awesome-artificial-intelligence.html
 
+
+Mastering C++ Game Development
+Practical Game AI Programming
+C++ Game Development Cookbook
+Procedural Content Generation for C++ Game Development
+Game Hacking
+safari 游戏开发书单
+https://www.safaribooksonline.com/search/?query=algorithm&extended_publisher_data=true&highlight=true&is_academic_institution_account=false&source=user&include_assessments=false&include_case_studies=true&include_courses=true&include_orioles=true&include_playlists=true&formats=book&topics=game-development&sort=relevance
 
 sdl sfml allegro
 spatial hashing

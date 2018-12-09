@@ -23,6 +23,8 @@
 	http://www.senocular.com/flash/tutorials/transformmatrix/
 //----------------------------------------------------------------------------------------
 仿3D教程
+https://www.youtube.com/channel/UC-yuWVUplUJZvieEligKBkA/playlists
+https://www.youtube.com/watch?v=ybLZyY655iY
 https://www.coranac.com/tonc/text/mode7.htm
 http://www.newsdee.com/swf/labs/Mode7.swf
 http://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/
@@ -208,6 +210,18 @@ https://www.youtube.com/watch?v=jrTfh9OWVYw
 
 也是youtube的教程
 https://www.youtube.com/user/handmadeheroarchive/playlists
+
+A flexible framework for Javascript games
+http://craftyjs.com/
+
+算法题查询
+https://www.jiuzhang.com/solutions/
+
+C++服器开发
+https://ke.qq.com/course/226926
+
+微积分本质
+https://www.bilibili.com/video/av24325548/?p=1
 
 
 

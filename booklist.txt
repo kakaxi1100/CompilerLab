@@ -8,10 +8,72 @@ Allen Sherrod (作者)
 
 Artificial Intelligence for Games, Second Edition (英语) 精装 – 2009年8月20日
 Ian Millington (作者), John Funge (作者)
+//-------------------------------------------------------------------------------------
+//-------------------------游戏设计----------------------------------------------------------
 
-The Book of Shaders
-by Patricio Gonzalez Vivo and Jen Lowe
+//---------------------图形图像--------------------------------------------------
+Physically Based Rendering: From Theory to Implementation 3rd Edition
+Geometric Tools for Computer Graphics (The Morgan Kaufmann Series in Computer Graphics)
 
+//---------------------机器学习-------------------------------------------------------
+Deep Learning, Vol. 1: From Basics to Practice
+Deep Learning, Vol. 2: From Basics to Practice 
+
+//----------------------数学相关-------------------------------------------------------
+Mathematics for Game Developers (Game Development) Paperback – June 8, 2004 by Christopher Tremblay  (Author)
+
+//--------------------物理相关------------------------------------------------------
+2D Game Collision Detection: An introduction to clashing geometry in games 
+Game Physics Engine Development: How to Build a Robust Commercial-Grade Physics Engine for your Game
+
+//--------------------程序生成相关 Procedural Generation-------------------------------
+Procedural Generation in Game Design
+
+//-----------------------shader 光影相关-------------------------------------------
+The Book of Shaders  （by Patricio Gonzalez Vivo and Jen Lowe）
+Algorithms Illuminated: Part 1: The Basics
+Algorithms Illuminated (Part 2): Graph Algorithms and Data Structures
+Algorithms Illuminated (Part 3): Greedy Algorithms and Dynamic Programming
+2D Shader Development: Illumination & Shadows
+2D Shader Development: Foundations
+
+//--------------------3D相关------------------------------------------------------------
+Black Art of 3D Game Programming: Writing Your Own High-Speed 3D Polygon Video Games in C
+Mathematics for 3D Game Programming and Computer Graphics, Third Edition
+3D Math Primer for Graphics and Game Development 2nd Edition
+
+//--------------------游戏引擎相关------------------------------------------------------
+Game Engine Black Book: Wolfenstein 3D
+Game Engine Black Book: Doom 
+Foundations of Game Engine Development, Volume 1: Mathematics
+A Programmer's Introduction to Mathematics
+
+//--------------------游戏算法相关------------------------------------------------------
+Mazes for Programmers: Code Your Own Twisty Little Passages  迷宫
+
+//--------------------光线追踪---------------------------------------------------
+Ray Tracing in One Weekend (Ray Tracing Minibooks Book 1) 
+Ray Tracing: the Next Week (Ray Tracing Minibooks Book 2)
+Ray Tracing: The Rest Of Your Life (Ray Tracing Minibooks Book 3) 
+
+//--------------------杂项---------------------------------------------------
+Making 8-bit Arcade Games in C Paperback – April 26, 2017 by Steven Hugg  (Author)
+Game Coding Complete, Fourth Edition Paperback – March 5, 2012 by Mike McShaffry  (Author), David Graham (Author)
+
+//--------------------绘画艺术---------------------------------------------------
+Make Your Own Algorithmic Art [Print Replica] Kindle Edition by Tariq Rashid  (Author)
+//-------------------------------------------------------------------------------------
+
+
+
+Physics for JavaScript Games, Animation, and Simulations: with HTML5 Canvas
+Building a 2D Game Physics Engine: Using HTML5 and JavaScript
+Real-Time 3D Graphics with WebGL 2 - Second Edition
+Beginning HTML5 Media : Make the most of the new video and audio standards for the Web, Second Edition
+Core HTML5 Canvas: Graphics, Animation, and Game Development
+
+声音编程
+Getting Started with C++ Audio Programming for Game Development
 
 文章
 
@@ -41,10 +103,10 @@ http://www.kuqin.com/shuping/20090702/60255.html
 引擎系列
 3D Game Engine Architecture
 Ultimate 3D Game Engine Design & Architecture
-Game Engine Black Book: Wolfenstein 3D
 3D Game Engine for Multiplayer Online Games
 3D Game Engine Design, Second Edition
 Build your own 2D Game Engine and Create Great Web Games: Using HTML5, JavaScript, and WebGL
+https://learning.oreilly.com/library/view/physics-for-javascript/9781430263371/
 https://max.book118.com/html/2016/0229/36382515.shtm
 
 
@@ -92,3 +154,19 @@ https://www.safaribooksonline.com/search/?query=algorithm&extended_publisher_dat
 
 sdl sfml allegro
 spatial hashing
+
+Publishing
+The Indie Game Developer Handbook
+https://www.safaribooksonline.com/library/view/the-indie-game/9781138828421/
+
+webGL
+https://www.safaribooksonline.com/library/view/webgl-game-development/9781849699792/
+https://www.safaribooksonline.com/library/view/opengl-4-shading/9781789342253/
+RayTracing
+https://www.safaribooksonline.com/library/view/ray-tracing-from/9781498774703/
+
+Artificial Intelligence for Games, 2nd Edition
+https://www.safaribooksonline.com/library/view/artificial-intelligence-for/9780123747310/
+
+Paradigms of Artificial Intelligence Programming
+https://www.safaribooksonline.com/library/view/paradigms-of-artificial/9780080571157/

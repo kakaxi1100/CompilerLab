@@ -2,24 +2,16 @@
 这个一定要看, 几乎所有效果都有 牛逼！！！
 	http://www.innerdrivestudios.com/blog/
 	http://www.innerdrivestudios.com/blog/as2-displacement-maps/displacement-maps-basics
-
+	http://www.freeactionscript.com/
 	http://www.flashandmath.com/
-	
 	http://lodev.org/cgtutor/
-
 //--------------------------以下是辅助,可以略过--------------------------------------------
 	http://www.codeproject.com/Articles/247214/Quadrilateral-Distortion
-
 	http://www.flipcode.com/archives
-
 	http://jump-map.tumblr.com/post/132225799048/affine-distortion-algorithms?is_related_post=1
-
 	http://ryoushin.com/cmerighi/en-US/2006-09-30_21/Quadrilateral_Distortion_Algorithm	
-
 	http://www.vcskicks.com/image-distortion.php
-
 	http://insolitdust.sourceforge.net/code.html
-
 	http://www.senocular.com/flash/tutorials/transformmatrix/
 //----------------------------------------------------------------------------------------
 仿3D教程
@@ -42,6 +34,9 @@ http://www.playfuljs.com/
 https://github.com/s-macke/VoxelSpace
 http://www.flipcode.com/archives/Realtime_Voxel_Landscape_Engines-Part_1_Introduction.shtml
 http://www.sohu.com/a/158499470_292495
+https://www.youtube.com/user/AlwaysGeeky/playlists
+//引擎教程
+https://sites.google.com/site/letsmakeavoxelengine/home
 //----------------------------------------------------------------------------------------
 3D 教程
 OGL Step by Step （非常详细的3D入门系列教学）
@@ -94,6 +89,7 @@ https://gamedevelopment.tutsplus.com/series/how-to-build-a-prince-of-persia-styl
 https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-ios--cms-560
 --------------------------------------------------------------------------------------------------------------------
 物理引擎开发
+https://github.com/bebraw/jswiki/wiki/Physics-libraries  //html5 物理引擎列表
 https://gamedevelopment.tutsplus.com/series/how-to-create-a-custom-physics-engine--gamedev-12715
 https://code.google.com/archive/p/box2d/downloads?page=1
 http://elancev.name/oliver/2D%20polygon.htm
@@ -137,6 +133,7 @@ http://www.kevs3d.co.uk/dev/
 https://www.zhihu.com/question/22017067
 https://thebookofshaders.com/
 https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-fundamentals.html
+
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 代码训练
@@ -222,6 +219,27 @@ https://ke.qq.com/course/226926
 
 微积分本质
 https://www.bilibili.com/video/av24325548/?p=1
+
+索尼克游戏开发技术入门 Sonic Physics Guide
+http://info.sonicretro.org/Sonic_Physics_Guide
+
+塞班游戏下载和模拟器
+https://zhuanlan.zhihu.com/p/32306985
+http://java.52emu.cn/?nsort=3
+
+How to Create a Roller Coaster Game in HTML5
+http://gametuts.org/how-to-create-a-roller-coaster-game-in-html5/
+
+html5 引擎
+https://html5gameengine.com/
+
+Hexagonal Grids 六边形地图
+https://www.redblobgames.com/grids/hexagons/
+
+大量游戏技术教程
+https://www.redblobgames.com/
+-----------------------------------------------------------------------------------------------------------------------------------------
+各类游戏源码教学
 
 
 

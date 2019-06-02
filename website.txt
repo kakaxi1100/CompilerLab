@@ -82,6 +82,7 @@ https://www.omnimaga.org/computer-c-and-c-help/decent-mode-7-tutorial/
 http://www.emanueleferonato.com/2011/10/13/develop-a-flash-game-like-string-avoider-as3-version-and-more/
 http://www.emanueleferonato.com/2014/06/10/html5-string-avoider-game-made-with-phaser/
 http://www.emanueleferonato.com/2007/07/12/creation-of-a-game-like-string-avoider-tutorial/
+https://www.emanueleferonato.com  各种各样游戏原型 感谢。
 
 https://www.zhihu.com/question/35430956
 
@@ -99,7 +100,7 @@ http://www.randygaul.net/2013/03/27/game-physics-engine-part-1-impulse-resolutio
 http://www.draknek.org/physics/cs310-report.pdf
 http://www.cs.cmu.edu/~baraff/sigcourse/
 http://cowboyprogramming.com/2008/04/01/practical-fluid-mechanics/
-https://gafferongames.com/tags/physics/     联网的物理处理方法
+
 https://www.myphysicslab.com/  各种物理效果
 https://www.toptal.com/game/video-game-physics-part-i-an-introduction-to-rigid-body-dynamics
 https://www.zhihu.com/question/26574544 书单
@@ -107,7 +108,15 @@ http://www.opengpu.org/home.php?mod=space&do=home 论坛
 http://creativejs.com/2013/10/squishy-earth/index.html
 http://byronknoll.blogspot.jp/2013/10/deformable-textures-in-html5-canvas.html
 http://2sa-studio.blogspot.jp/2014/05/soft-bodies-with-cocos2d-v3.html
-https://gafferongames.com/
+https://gafferongames.com/   //已经过世
+https://gafferongames.com/tags/physics/     联网的物理处理方法 //已经过世
+http://web.archive.org/web/20190328001900/https://gafferongames.com/ //只能看这里了
+http://www.as3gamegears.com/category/physics/ AS3 物理各种引擎介绍
+http://www.as3gamegears.com/category/physics/2d-physics/
+https://code.google.com/archive/p/box2d/downloads   box2d 作者历史文档
+https://www.myphysicslab.com/develop/docs/Engine2D.html
+http://www.physicsbasedanimation.com/
+
 
 ---------------------------------------------------------------------------
 Unofficial Windows Binaries for Python Extension Packages
@@ -201,6 +210,8 @@ https://www.patreon.com/thebennybox
 
 国外网盘 书籍下载等等
 https://www.scribd.com/books
+http://www.allitebooks.org/game-programming/
+http://www.r-5.org/books.en/
 
 BillBox Crush the app store webinar
 https://www.youtube.com/watch?v=jrTfh9OWVYw
@@ -238,8 +249,18 @@ https://www.redblobgames.com/grids/hexagons/
 
 大量游戏技术教程
 https://www.redblobgames.com/
+
+AS3 开源包
+https://www.cnblogs.com/regalys168/p/3816575.html
+
+
+http://lab.andre-michelle.com
+
+查看已挂web的历史档案
+http://web.archive.org/
 -----------------------------------------------------------------------------------------------------------------------------------------
 各类游戏源码教学
+
 
 
 

@@ -41,7 +41,7 @@ https://sites.google.com/site/letsmakeavoxelengine/home
 3D 教程
 OGL Step by Step （非常详细的3D入门系列教学）
 http://ogldev.atspace.co.uk/
-	
+https://github.com/ssloy/tinyrenderer/wiki (500行的软3D引擎教学)
 https://tutsplus.com/authors/kyle-sloka-frey?_ga=2.145946420.1015169689.1503566760-490803705.1502787787
 //----------------------------------------------------------------------------------------	
 游戏相关
@@ -53,7 +53,8 @@ https://gamedevelopment.tutsplus.com/tutorials/how-to-generate-shockingly-good-2
 https://gamedevelopment.tutsplus.com/tutorials/make-a-splash-with-dynamic-2d-water-effects--gamedev-236
 https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 https://gamedevelopment.tutsplus.com/articles/40-fantastic-game-development-tutorials-from-across-the-web--gamedev-3384
-
+https://jobtalle.com/index.html 一个游戏博客, 内容很少,不过值得一看
+https://0fps.net 一个游戏博客
 http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
 https://www.indienova.com/home/welcome
@@ -117,6 +118,8 @@ https://code.google.com/archive/p/box2d/downloads   box2d 作者历史文档
 https://www.myphysicslab.com/develop/docs/Engine2D.html
 http://www.physicsbasedanimation.com/
 
+https://www.metanetsoftware.com/technique/tutorialB.html
+
 
 ---------------------------------------------------------------------------
 Unofficial Windows Binaries for Python Extension Packages
@@ -155,8 +158,13 @@ https://www.zhihu.com/question/20105317
 ---------------------------------------------------------------------------------
 下载书籍
 https://smtebooks.com/
+如果网上有搜不到的外文书籍，试试这个
+https://sanet.st/blogs/ebooksa/
+
 老游戏下载
 http://www.oldpcgaming.net
+https://www.myabandonware.com/ 4000多个老游戏下载！！你值得拥有
+
 教学网-学堂在线
 http://www.xuetangx.com/courses/search?query=%E9%82%93%E4%BF%8A%E8%BE%89
 -----------------------------------------------------------------------------------
@@ -189,6 +197,10 @@ https://www.youtube.com/watch?v=51qSGUtaJwc
 
 ESC AS3 实例以及完美解释
 https://www.richardlord.net/blog/ecs/what-is-an-entity-framework.html
+ECS 源码
+https://github.com/yagl/ecs
+开源库
+https://yagl.github.io/
 
 一个2D游戏引擎
 https://savas.ca/nomad
@@ -212,6 +224,11 @@ https://www.patreon.com/thebennybox
 https://www.scribd.com/books
 http://www.allitebooks.org/game-programming/
 http://www.r-5.org/books.en/
+http://www.banshujiang.cn/
+https://zh.b-ok2.org/g/Roy%20Tanck%20(auth.)?order=title
+https://zh.b-ok2.org/s/?e=1
+https://en.b-ok2.org/s/?e=1
+https://www.foundpdf.com/
 
 BillBox Crush the app store webinar
 https://www.youtube.com/watch?v=jrTfh9OWVYw
@@ -259,9 +276,21 @@ http://lab.andre-michelle.com
 查看已挂web的历史档案
 http://web.archive.org/
 -----------------------------------------------------------------------------------------------------------------------------------------
-各类游戏源码教学
+老游戏模拟器在线玩游戏很高级哦，什么游戏都有啊！
+https://playclassic.games/games/
 
 
+https://asmcn.icopy.site/awesome/awesome-PICO-8/
+
+https://loonride.com/
+
+https://www.algorithm-archive.org/contents/verlet_integration/verlet_integration.html
+
+-------------------------------------------------------------------------------------
+google search 
+procedural generation dungeon
+https://gamasutra.com/blogs/AAdonaac/20150903/252889/Procedural_Dungeon_Generation_Algorithm.php
+https://www.reddit.com/r/gamedev/comments/1dlwc4/procedural_dungeon_generation_algorithm_explained/
 
 
 

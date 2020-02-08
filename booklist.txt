@@ -37,6 +37,7 @@ Mathematics for 3D Game Programming and Computer Graphics, Third Edition 3rd Edi
 Mathematics for Computer Graphics and Game Programming: A Self-Teaching Introduction Paperback – January 31, 2019
 A Programmer's Introduction to Mathematics
 Essential Mathematics for Games and Interactive Applications
+Turtle Geometry: The Computer as a Medium for Exploring Mathematics (Artificial Intelligence)
 
 //--------------------物理相关------------------------------------------------------
 2D Game Collision Detection: An introduction to clashing geometry in games 
@@ -68,11 +69,20 @@ Physics Based Animation
 2D Collision Detection Focus on Circle/Circle Collisions 
 2D Collision Detection Focus on Circle/Point Collisions
 
-
-
+//--------------------服务器 Server-------------------------------
+游戏服务器架构与优化
 
 //--------------------程序生成相关 Procedural Generation-------------------------------
-Procedural Generation in Game Design
+Procedural Generation in Game Design （随机地图）
+Procedural content generation techniques(正在阅读....)
+http://pcg.wikidot.com/category-pcg-algorithms
+http://pcgbook.com/
+Procedural Content Generation for C++ Game Development
+Procedural Content Generation in Games
+Procedural Content Generation for Unity Game Development
+Procedural Storytelling in Game Design
+Game Dynamics: Best Practices in Procedural and Dynamic Game Content Generation
+Texturing and Modeling: A Procedural Approach
 
 //-----------------------Shader 光影相关-------------------------------------------
 The Book of Shaders  （by Patricio Gonzalez Vivo and Jen Lowe）
@@ -89,6 +99,27 @@ WebGL Game Development
 WebGL Programming Guide: Interactive 3D Graphics Programming with WebGL (OpenGL) 
 WebGL Beginner's Guide
 Shaders for Game Programmers and Artists (Premier Press Game Development)
+WebGL Hotshot
+Interactive Computer Graphics: A Top-Down Approach with WebGL (7th Edition)
+交互式计算机图形学 基于WebGL的自顶向下方法（第七版）
+WebGL 2.0 Quick Reference
+3D Programming for Beginners (Learn WebGL Book 1)
+WebGL2: A practical approach to learn computer 3D graphics and games
+Learn WebGL: In The Easy Way. （已看完）
+WebGL Complete Self-Assessment Guide
+Interactive Computer Graphics with WebGL, Global Edition
+Beginning WebGL for HTML5 (Expert's Voice in Web Development)
+WebGL Beginners Guide(Chinese Edition)
+Create 3D Games (Learn WebGL Book 2)
+Learning HTML5 Game Programming: A Hands-on Guide to Building Online Games Using Canvas, SVG, and WebGL by James L. Williams (2011-10-05)
+H5和WebGL 3D开发实战详解
+HTML5与WebGL编程
+Computer Graphics with WebGL
+WebGL Getting Started Guide(Chinese Edition)
+WebGL编程指南
+Professional WebGL Programming: Developing 3D Graphics for the Web(Chinese Edition)
+计算机图形学导论――实用学习指南（WebGL版）
+WebGL: Up and Running: Building 3D Graphics for the Web 
 
 //--------------------3D相关------------------------------------------------------------
 Black Art of 3D Game Programming: Writing Your Own High-Speed 3D Polygon Video Games in C
@@ -109,7 +140,7 @@ Game Programming Algorithms and Techniques: A Platform-Agnostic Approach (Game D
 Algorithms Illuminated: Part 1: The Basics 
 Algorithms Illuminated (Part 2): Graph Algorithms and Data Structures
 Algorithms Illuminated (Part 3): Greedy Algorithms and Dynamic Programming
-Procedural Generation in Game Design （随机地图）
+
 
 //--------------------光线追踪---------------------------------------------------
 Ray Tracing in One Weekend (Ray Tracing Minibooks Book 1) 
@@ -137,13 +168,15 @@ Artificial Intelligence and Games
 Game AI Pro: Collected Wisdom of Game AI Professionals
 Game AI Pro2: Collected Wisdom of Game AI Professionals
 Game AI Pro3: Collected Wisdom of Game AI Professionals
-
+AI Techniques for Game Programming
+AI Game Programming Wisdom
+AI Game Engine Programming
+Introduction to Game AI
+Artificial Intelligence for Computer Games: An Introduction Behavioral Mathematics for Game AI
 
 //--------------------多人游戏开发---------------------------------------------------
 Multiplayer Game Programming: Architecting Networked Games (Game Design) 
 Multiplayer Game Development with HTML5
-
-
 
 //--------------------程序语言---------------------------------------------------
 Simplifying JavaScript: Writing Modern JavaScript with ES5, ES6, and Beyond
@@ -153,7 +186,6 @@ Beginning C++ Through Game Programming
 
 //--------------------架构相关--------------------------------------------------
 Clean Architecture: A Craftsman's Guide to Software Structure and Design (Robert C. Martin Series) 
-
 
 //--------------------------游戏开发实例相关-----------------------------------------
 The Advanced Game Developer's Toolkit: Create Amazing Web-based Games with JavaScript and HTML5
@@ -227,7 +259,7 @@ http://gamearchitect.net/Articles/DataDrivenDesign.html
 
 Artificial Intelligence, including individual & group behaviors, planning, and pathing
 (artificial intelligence in games)
-chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=http%3A%2F%2Fgameaibook.org%2Fbook.pdf
+http://gameaibook.org/book.pdf
 chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=http%3A%2F%2Flecturer.ukdw.ac.id%2F~mahas%2Fdossier%2Fgameng_AIFG.pdf
 chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=http%3A%2F%2Fwww.cs.uni.edu%2F~schafer%2F4620%2Freadings%2FAi%2520Techniques%2520For%2520Game%2520Programming.pdf
 chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?file=https%3A%2F%2Fldc.usb.ve%2F~vtheok%2Fcursos%2Fci5325%2Flecturas%2FArtificial%2520Intelligence%2520for%2520Games.pdf
@@ -235,10 +267,7 @@ chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/static/pdf/web/viewer.html?f
 Networked multiplayer systems
 https://gamedevelopment.tutsplus.com/tutorials/building-a-peer-to-peer-multiplayer-networked-game--gamedev-10074
 
-Procedural content generation techniques(正在阅读....)
-http://pcg.wikidot.com/category-pcg-algorithms
-http://pcgbook.com/
-Procedural Generation in Game Design
+
 
 
 动态视觉特效
@@ -255,7 +284,7 @@ http://www.techug.com/post/awesome-artificial-intelligence.html
 Mastering C++ Game Development
 Practical Game AI Programming
 C++ Game Development Cookbook
-Procedural Content Generation for C++ Game Development
+
 Game Hacking
 safari 游戏开发书单
 https://www.safaribooksonline.com/search/?query=algorithm&extended_publisher_data=true&highlight=true&is_academic_institution_account=false&source=user&include_assessments=false&include_case_studies=true&include_courses=true&include_orioles=true&include_playlists=true&formats=book&topics=game-development&sort=relevance
@@ -280,11 +309,3 @@ Paradigms of Artificial Intelligence Programming
 https://www.safaribooksonline.com/library/view/paradigms-of-artificial/9780080571157/
 
 
-
-
-
-
-
-
-
-这本书 我买过也看过，不过告诉你不用去买 这本书的很多章节（所有刚体模拟的）都在 《Stable, Robust, and Versatile Multibody Dynamics Animation.pdf》 这篇论文里，注意这篇论文有2个版本去下载一个15M左右的版本。 这本书中关于碰撞检测和柔体模拟讲的都不好，柔体技术很多说的都是已经过时的，唯一 值得看的是刚体模拟部分，如果要看柔体，直接去下载现在流行的《position based dynamic》 碰撞部分的话推荐去看gino的GJK方法 或者简单的SAT。VClip已经被申请专利了所以看了没用， 而且以后你会发现真正有用的文章都是些在各种paper里面的，这些Paper到Bullet论坛里面去找，价值比你去买本书大多了 

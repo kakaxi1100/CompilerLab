@@ -314,8 +314,8 @@ SFML tutorial
 https://www.lucidarme.me/sfml-tutorial/
 
 
-
-
+Learn Computer Graphics From Scratch!
+https://www.scratchapixel.com/
 
 
 

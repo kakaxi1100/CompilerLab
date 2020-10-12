@@ -52,6 +52,7 @@ Fluid Engine Development
 The Art of Fluid Animation
 Physics for Game Programmers
 Physics Based Animation
+Game Physics Cookbook （sourcecode：https://github.com/gszauer/GamePhysicsCookbook） //必看
 
 
 2D Collision Detection for Game Programmers: Focus on Ellipse Collisions
@@ -104,13 +105,13 @@ Interactive Computer Graphics: A Top-Down Approach with WebGL (7th Edition)
 交互式计算机图形学 基于WebGL的自顶向下方法（第七版）
 WebGL 2.0 Quick Reference
 3D Programming for Beginners (Learn WebGL Book 1)
+Create 3D Games (Learn WebGL Book 2)
 WebGL2: A practical approach to learn computer 3D graphics and games
 Learn WebGL: In The Easy Way. （已看完）
 WebGL Complete Self-Assessment Guide
 Interactive Computer Graphics with WebGL, Global Edition
 Beginning WebGL for HTML5 (Expert's Voice in Web Development)
 WebGL Beginners Guide(Chinese Edition)
-Create 3D Games (Learn WebGL Book 2)
 Learning HTML5 Game Programming: A Hands-on Guide to Building Online Games Using Canvas, SVG, and WebGL by James L. Williams (2011-10-05)
 H5和WebGL 3D开发实战详解
 HTML5与WebGL编程
@@ -120,6 +121,7 @@ WebGL编程指南
 Professional WebGL Programming: Developing 3D Graphics for the Web(Chinese Edition)
 计算机图形学导论――实用学习指南（WebGL版）
 WebGL: Up and Running: Building 3D Graphics for the Web 
+http://learnwebgl.brown37.net/ Learn WebGL
 
 //--------------------3D相关------------------------------------------------------------
 Black Art of 3D Game Programming: Writing Your Own High-Speed 3D Polygon Video Games in C
@@ -173,6 +175,7 @@ AI Game Programming Wisdom
 AI Game Engine Programming
 Introduction to Game AI
 Artificial Intelligence for Computer Games: An Introduction Behavioral Mathematics for Game AI
+Practical Game AI Programming
 
 //--------------------多人游戏开发---------------------------------------------------
 Multiplayer Game Programming: Architecting Networked Games (Game Design) 
@@ -282,7 +285,7 @@ http://www.techug.com/post/awesome-artificial-intelligence.html
 
 
 Mastering C++ Game Development
-Practical Game AI Programming
+
 C++ Game Development Cookbook
 
 Game Hacking

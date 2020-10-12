@@ -293,6 +293,26 @@ https://gamasutra.com/blogs/AAdonaac/20150903/252889/Procedural_Dungeon_Generati
 https://www.reddit.com/r/gamedev/comments/1dlwc4/procedural_dungeon_generation_algorithm_explained/
 
 
+样条曲线
+逼近样条曲线 和 插值样条曲线
+贝塞尔 和 catmull-rom
+https://www.youtube.com/watch?v=DzjtU4WLYNs
+https://www.shuxuele.com/calculus/arc-length.html（弧长求发）
+https://zhuanlan.zhihu.com/p/111708587
+
+8bits图像处理
+https://www.youtube.com/watch?v=mRM5Js3VLCk
+
+
+shader vscode
+https://www.youtube.com/watch?v=HIvNePu7UEE&list=PL4neAtv21WOmIrTrkNO3xCyrxg4LKkrF7&index=1
+
+shader C++
+https://www.youtube.com/watch?v=j91xhXPJezg
+
+SFML tutorial
+https://www.lucidarme.me/sfml-tutorial/
+
 
 
 

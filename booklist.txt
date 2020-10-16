@@ -44,11 +44,13 @@ Turtle Geometry: The Computer as a Medium for Exploring Mathematics (Artificial 
 Game Physics Engine Development: How to Build a Robust Commercial-Grade Physics Engine for your Game
 Real-Time Collision Detection (The Morgan Kaufmann Series in Interactive 3-D Technology)
 Fluid Simulation for Computer Graphics
+Fluid Engine Development 
+https://www.youtube.com/watch?v=alhpH6ECFvQ  流体模拟开发视频
 Guide to Dynamic Simulations of Rigid Bodies and Particle Systems
 Cloth Simulation for Computer Graphics
 Foundations of Physically Based Modeling & Animation
 Game Physics Pearls
-Fluid Engine Development 
+
 The Art of Fluid Animation
 Physics for Game Programmers
 Physics Based Animation
@@ -122,6 +124,8 @@ Professional WebGL Programming: Developing 3D Graphics for the Web(Chinese Editi
 计算机图形学导论――实用学习指南（WebGL版）
 WebGL: Up and Running: Building 3D Graphics for the Web 
 http://learnwebgl.brown37.net/ Learn WebGL
+https://mp.weixin.qq.com/s/3_ShiqpcJDsBcgeszAMT3Q 白玉无冰 shader 编程 后面有学习网站
+http://math.hws.edu/graphicsbook/ webGL文章
 
 //--------------------3D相关------------------------------------------------------------
 Black Art of 3D Game Programming: Writing Your Own High-Speed 3D Polygon Video Games in C
